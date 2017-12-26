@@ -1,0 +1,14 @@
+Enable customized animation over the internet 
+===============================================
+Code : #ISR4
+Ministry/State : Department of Space (ISRO)
+Sector : Technology
+Category : software
+Priority : high
+Total Submissions : 1 
+
+Problem Statement:
+--------------------
+ISRO has archival of time series of various satellite data in the form of time-stamped images. An efficient mechanism is to be developed to view an animation of time series of satellite data by the users is required. User can choose the start and end time / date and able to visualize its animation over the internet with different speeds of animation. Desired Outcome Customized animation over internet Datasets http://nrsc.gov.in/hackathon2018/animation Domain Software development Challenge Development of light weight animation over the internet with a smooth transition of images Usage Useful on ISRO web portals of Bhuvan, MOSDAC and VEDAS User Public and Decision makers No. of users 500 Role of user Customised Visualisation of animation Technicality Technical Available solutions (if yes, reason for not using them) Current solutions are not providing smooth animation for large number of images. 
+
+Domain Expert(s) Shashikant A Sharma, Markand P. Oza
