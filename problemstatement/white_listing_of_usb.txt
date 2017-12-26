@@ -1,0 +1,13 @@
+Prototype/application for whitelisting of USB devices in OFB which can be subsequently used on internet as well as on intranet 
+===============================================================================================================================
+
+Code : #MOD7
+Ministry/State : Department of Defence Production, Ministry of Defence
+Sector : Technology
+Category : software
+Priority : high
+Total Submissions : 4 
+
+Problem Statement:
+-------------------
+USB white listing becomes essential for demarcation of pendrives/ external hard drives issued by organization and fit for use to handle official data. USB white listing can be done in such a manner so that same USB storage device can be accessed from any PC, server and laptop issued by the organization, irrespective of their connectivity to the internet or to the intranet. It may also be ensured that the encryption mechanism remains standard and uniform throughout the organization. Outside systems should not be able to access such encrypted storage devices. Users of this system: Users using pen drive to transfer data from Intranet to Internet & vice-versa. Technology that can help address the issue: An integrated system that will provide MAC addressing based bulk whitelisting of storage media. It can be developed through java or any other API (Application Programming Interface). Desired Solution: A prototype/application of national system for media access that will encompass standard policies/guidelines for media/USB device access control policy and data recovery can be deployed, preferably open source. There will be improvement in internal efficiency saving of time and effort as well as improved user experience.

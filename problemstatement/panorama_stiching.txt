@@ -1,0 +1,18 @@
+Distributed Panorama Construction of High Resolution UAV Imagery Using Public Compute Nodes
+===========================================================================================
+Code : #ISR15
+Ministry/State : Department of Space (ISRO)
+Sector : Technology
+Category : software
+Priority : high
+Total Submissions : 4 
+
+Problem Statement:
+------------------
+The raw remote sensing/optical imagery captured by UAVs almost always needs to be processed for generating a region panorama using image stitching. The image stitching procedure generally involves various steps namely: • Feature detection for finding correspondences between images so that they may be considered for alignment • Image calibration for removing optical defects such as distortions, chromatic aberrations etc. • Image registration that involves feature matching to determine optimal alignment features • Image blending that involves executing the adjustments figured out in the calibration stage, combined with remapping of the images to an output projection However, these images are typically of gigantic sizes due to which processing them takes a significant amount of time and hardware based computational resources. This leads to cumulative delays in preparation of the imagery data in a format that is useful for scientific or public use. Thus after determining those steps which do not have dependencies on the other steps of processing, the images can be divided into chunks of small size (say a few KBs) and these can be distributed among the devices owned by common people such as smartphones, or even desktops. An app/software will utilize the resources of the mobile or desktop to perform processing on the small image chunk and send the results back to the servers. At the server end, the processed chunks are assembled together to get the final output for that processing stage. Desired Outcome Panorama constructed from unstitched UAV images utilizing algorithms that have to work in a distributed fashion to produce the final image Dataset Unstitched UAV images acquired for the North East Indian region will be provided https://nrsc.gov.in/hackathon2018/ Domain Software development (app and desktop based) Challenge Expansion of existing image stitching techniques to work in a distributed environment and formulation of algorithms for the same Usage Provides a very easy way of distributing the work/effort required to process huge UAV images. Saves on the IT infrastructure upgradation costs. Inclusion of the common people’s resources in solving scientific problems giving the space research infrastructure unparalleled power and practically infinite resources. Can be extended to other image processing tasks like image segmentation/classification, interferometric analysis etc. User Common people/scientists Expected number of users 100 – 300 Role of user To download and install the app/software on one’s electronic computing device like Android mobile or desktop PC so as to become a participating compute node that would do its part in contributing to the panorama construction Technicality Technical Available solutions (if yes, reason for not using them) None available for this problem domain in India 
+
+Domain Expert(s)
+-------------------- 
+Dr. Dibyajyoti Chutia d.chutia@nesac.gov.in 
+Shri Siddhartha Bhuyan siddhartha.bhuyan86@gmail.com 
+Shri Nilay Nishant nilaynishant@gmail.com

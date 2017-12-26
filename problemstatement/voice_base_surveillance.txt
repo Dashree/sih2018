@@ -1,0 +1,23 @@
+Designing a voice based surveillance system for detecting Phishing attacks that fraudulently obtains the bank account details of unsuspecting customers through phone calls 
+================================================================================================================================
+
+Code : #CSIR5
+Ministry/State : Council of Scientific and Industrial Research (CSIR)
+Sector : Technology
+Category : software
+Priority : high
+Total Submissions : 5 
+
+
+Problem Statement:
+-------------------
+Govt Offices and Research Institute networks are at continuous risk of target base cyber attacks, such as phishing, dangerous exploits, advanced Threats like sophisticated malware and zero-day threats. Such attacks are risk to organisation for their privacy and integrity of data and knowledge base To combat these Zero day attack or Advance Threat many security vendors have solutions such as Advance threat prevention/protection such as sandboxing which scans the files coming to network combines hardware-level inspection and OS-level sandboxing to prevent infection from the most exploits, malwares, zero-day and targeted attacks entering the networks These solutions are mostly based on Cloud-based Service or highly expensive On-premise appliances based solution. It’s not the best practice to scan Government data for Zero day attack or Advance Threat on a third party cloud as files are uploaded and downloaded back and forth to vendors cloud for sandboxing .This raise the issues of data privacy and integrity as we are using cloud services of private vendors Therefore a Cost effective On-Cloud (Privately owned by government) solution for Zero-Day Attack Protection for advanced Persistent Threat/ Advance threat prevention must be designed so the government data can be sandboxed on government owned private cloud itself for data as well as network security and can be widely used among different government sectors. 
+
+3. Sample Data Required, if yes, please describe:No 4. Name of CSIR Lab: CSIR- Indian Institute of Integrative Medicine 
+
+Nodal Person and Contact Details
+---------------------------------
+ Name: Shaghaf Ansari 
+ Designation : Scientist, IT Divison 
+ Email Id: Shaghaf@iiim.ac.in 
+ Phone no: 0191-2569223
