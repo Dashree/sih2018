@@ -1,0 +1,11 @@
+I am assuming that You have a working Ubuntu linux setup (either in Windows Bash or Linux VM in virtual box etc)
+
+Install following using apt-get
+1. nginx
+2. python 3 
+3. ffmpeg
+
+
+Run following command to install all necessary python packages. (requirements.txt is in this folder)
+
+python3 -m pip install -r requirements.txt
