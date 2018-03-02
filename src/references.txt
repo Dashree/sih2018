@@ -1,0 +1,21 @@
+
+1. Reddit Question
+Any Good libraries for Video Streaming in Rust
+https://www.reddit.com/r/rust/comments/6kc4hu/any_good_libraries_for_video_streaming_in_rust/
+
+VPX Crates Package 
+Rust idiomatic wrapper to libvpx (From 2015 no changes after that)
+https://crates.io/crates/vpx/0.2.0
+
+Rust wrapper for libvpx
+https://github.com/quadrifoglio/vpx-rs (recently updated, but seems contains only decoder)
+
+Go bindings for libvpx
+https://github.com/xlab/libvpx-go (Demo application decoder only. Not sure about encoding)
+
+FFMpeg
+https://ffmpeg.org/
+
+
+
+
