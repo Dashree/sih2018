@@ -2,7 +2,7 @@ I am assuming that You have a working Ubuntu linux setup (either in Windows Bash
 
 Install following using apt-get
 1. nginx
-2. python 3 
+2. python3.6
 3. ffmpeg
 
 

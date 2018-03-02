@@ -60,6 +60,9 @@ References
 =================
 Read this as reference
 
+Flumotion Streaming Media Server (written in python)
+https://github.com/Flumotion/flumotion
+
 1. Reddit Question
 Any Good libraries for Video Streaming in Rust
 https://www.reddit.com/r/rust/comments/6kc4hu/any_good_libraries_for_video_streaming_in_rust/
