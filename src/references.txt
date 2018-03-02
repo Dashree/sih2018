@@ -10,6 +10,8 @@ https://www.windowscentral.com/how-install-bash-shell-command-line-windows-10
 [NITIN - I have created a separate installation instructions documents installation.txt]
 
 gunicorn (http://gunicorn.org/)
+NumPy - www.numpy.org/
+
 
 FFMpeg and other VP9 codec 
 =========================================
@@ -27,6 +29,9 @@ Coverting a series of images into a video stream https://stackoverflow.com/quest
 Read/Write Video frames in Python using FFMpeg
 http://zulko.github.io/blog/2013/09/27/read-and-write-video-frames-in-python-using-ffmpeg/
 
+Using FFMpeg to convert a set of images into a video
+http://hamelot.io/visualization/using-ffmpeg-to-convert-a-set-of-images-into-a-video/
+
 Streaming Guide for FFMpeg
 https://trac.ffmpeg.org/wiki/StreamingGuide
 
@@ -43,6 +48,9 @@ at the same time
 Build LIve video streaming server using FFMpege and Nginx RTMP module
 https://hackernoon.com/build-live-video-streaming-server-use-ffmpeg-nginx-rtmp-module-nodejs-82e1bb58949e
 [NITIN : This article uses NodeJS and MongoDB. We will not need that. But Nginx configuation option details are useful]
+
+Creating A Production Ready Multi Bitrate HLS VOD stream 
+https://docs.peer5.com/guides/production-ready-hls-vod/
 
 HLS - HTTP Live Streaming Client
 https://github.com/video-dev/hls.js
