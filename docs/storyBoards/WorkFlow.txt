@@ -1,0 +1,11 @@
+1. The incoming satellite images will be stored in a directory and this directory will be periodically checked for new entries.
+2. The new image will be detected, processed and concatenated to the current video.
+3. The above process will be performed for 4 different resolutions like 360p, 720p, 1080p, 1440p and 4 different rates like 1fps, 2fps, 0.5fps ,(trial and error).
+4. These will be stored in different directories.
+5. When the user demands, the requested video will be streamed using a media server(ffserver)
+6. The request is processed by the nginx server with the help of backend django framework.
+7. The user interface will include login page followed by options to select desired frame rate, resolution, start time and end time.
+8. The video will be rendered by the server.
+9. Nginx server is responsible to segregate the requests between django framework and media server.
+
+(Note: How to do caching)
