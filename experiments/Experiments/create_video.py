@@ -1,3 +1,9 @@
+"""
+Height is provided from the terminal and can be 360, 720, 1080.
+Width is automatically calculated as per height. Doesn't accept externally provided width
+"""
 import moviepy.editor as moviepy
-clip = moviepy.ImageSequenceClip('image', fps = 1)
-clip.write_videofile("video1fps.webm", fps=22,codec='libvpx-vp9')
+import sys
+height = sys.argv[1]
+clip = moviepy.ImageSequenceClip('images', fps = 1)
+clip.resize(height=int(height)).write_videofile("video1fps.webm", fps=22,codec='libvpx-vp9')
