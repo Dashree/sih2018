@@ -7,10 +7,11 @@ class EntryDate(models.Model):
     entry = models.DateTimeField(auto_now_add=True)
 
 def upload_path_videos(instance, filename):
-    return "videos/{date}/{res}/{fps}/{file}".format(date = instance.date, res=instance.resfield, fps =instance.fpsfield,file=filename)
+    return "videos/{date}/{res}/{fps}/{file}".format(date = instance.date, res=instance.resfield, fps =instance.fpsfield, file=filename)
                                 # ^ 4 fps folders per resolution
 def upload_path_images(instance, filename):
     return "images/{date}/{file}".format(date = instance.date,file=filename)
+
 class PnC(models.Model):
    # res = [360, 720, 1080, 1440]
    # fps = [0.5, 1, 2, 4]
