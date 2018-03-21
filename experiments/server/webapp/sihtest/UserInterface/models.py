@@ -1,15 +1,26 @@
 from django.db import models
-#import itertools
-
+import os
 # Create your models here.
 
 class EntryDate(models.Model):
     entry = models.DateTimeField(auto_now_add=True)
 
 def upload_path_videos(instance, filename):
+    directory =os.path.dirname('videos/{date}').format(date = instance.date)
+     if not os.path.exists(directory):
+        os.makedirs(directory)
+    directory =os.path.dirname('videos/{date}/{res}').format(date = instance.date, res=instance.res)
+     if not os.path.exists(directory):
+        os.makedirs(directory)
+    directory =os.path.dirname('videos/{date}/{res}/{fps}').format(date = instance.date, res=instance.resfield, fps =instance.fpsfield)
+     if not os.path.exists(directory):
+        os.makedirs(directory)
     return "videos/{date}/{res}/{fps}/{file}".format(date = instance.date, res=instance.resfield, fps =instance.fpsfield, file=filename)
                                 # ^ 4 fps folders per resolution
 def upload_path_images(instance, filename):
+    directory =os.path.dirname('images/{date}').format(date = instance.date)
+     if not os.path.exists(directory):
+        os.makedirs(directory)    
     return "images/{date}/{file}".format(date = instance.date,file=filename)
 
 class PnC(models.Model):
@@ -34,5 +45,5 @@ class PnC(models.Model):
 
 
 class upload_image(models.Model):
-    upload = models.ImageField(upload_to=upload_path_images)
+    uploadpath = models.ImageField(upload_to=upload_path_images)
     date = models.ForeignKey(EntryDate, on_delete=models.CASCADE)   # passing a reference to the EntryDate

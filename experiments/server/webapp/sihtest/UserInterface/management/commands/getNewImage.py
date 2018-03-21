@@ -12,10 +12,13 @@ class Handler(PatternMatchingEventHandler):
             ignore_directories=True, case_sensitive=False)
     def on_created(self,event):
         #print(event.src_path)
-        date = datetime.now()
-        newimage = upload_image(upload = os.path.basename(event.src_path), date = datetime.now())
-        newimage.save()
         #print(os.path.basename(event.src_path))
+        date = datetime.now()
+        newimage = upload_image(uploadpath = os.path.basename(event.src_path), date = datetime.now())
+        newimage.save()
+               
+
+        
         
 if __name__ == '__main__':
    
