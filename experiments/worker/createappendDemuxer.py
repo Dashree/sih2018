@@ -24,8 +24,8 @@ class Handler(PatternMatchingEventHandler):
         subprocess.run(command)
         os.remove('video.webm')
         os.rename('video1.webm', 'video.webm')
-        
-    def on_created(self,event):
+
+    def createVideo():
         imagePath = event.src_path
         dirPath = os.path.dirname(event.src_path)
         print(os.path.basename(event.src_path))
@@ -33,6 +33,8 @@ class Handler(PatternMatchingEventHandler):
         height = int(sys.argv[2])
         clip = moviepy.ImageClip(imagePath, duration=4)
         clip.resize(newsize=(width,height)).write_videofile('singleVideo.webm', fps=4,codec='libvpx-vp9')
+        
+    def on_created(self,event):
         if(os.path.exists('concat.txt')):
             if(self.n == 0):
                 f = open('concat.txt', 'a')
