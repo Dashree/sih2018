@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="CSS\style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-5">
+                <h3>From</h3>
+                <div class="col-sm-7">
+                    <form action="/action_page.php">
+                        <input class="form-control" type="date" name="date" placeholder="DD/MM/YYYY">
+                    </form>
+                </div>
+                <div class="col-sm-5">
+                    <p id="FromTime">
+                        <script src="TIME.js"></script>
+                    </p>
+                </div>
+            </div>
+            <div class="col-sm-1"></div>
+            <div class="col-sm-5">
+                <h3>To</h3>
+                <div class="col-sm-7">
+                    <form action="/action_page.php">
+                        <input class="form-control" type="date" name="date" placeholder="DD/MM/YYYY">
+                    </form>
+                </div>
+                <div class="col-sm-5">
+                    <p id="ToTime">
+                        <script src="TIME.js"></script>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <br>
+        <br>
+        <div class="row">
+            <div class="col-sm-5">
+                <h3>Resolution</h3>
+                <div class="col-sm-8">
+                    <form>
+                        <select class="form-control" id="Resolution" required>
+                            <option value="Resolution" style="color: #d6d6c2;" selected>Resolution</option>
+                            <option value="360">360</option>
+                            <option value="720">720</option>
+                            <option value="1080">1080</option>
+                            <option value="1440">1440</option>
+                        </select>
+                    </form>
+                </div>
+            </div>
+            <div class="col-sm-1"></div>
+            <div class="col-sm-5">
+                <h3>Image per Second</h3>
+                <div class="col-sm-8">
+                    <form>
+                        <select class="form-control" id="FPS" required>
+                            <option value="fps" style="color: #d6d6c2;" selected>Images per second</option>
+                            <option value="0.5">0.5</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="2.5">2.5</option>
+                        </select>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <br>
+        <br>
+        <div class="row text-center">
+           <div class="col-sm-11"><button id="myBtn" class="btn btn-default" type="submit">Next</button>
+           </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

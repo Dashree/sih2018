@@ -1,0 +1,27 @@
+select {
+    width: 100%;
+    padding: 16px 20px;
+    border-style: solid;
+    border-radius: 4px;
+    background-color: #ffffff;
+    font-size: 20px;
+}
+
+select.form-control, input.form-control {
+    height: 40px;
+}
+
+div.container-fluid {
+    padding: 100px 100px 100px;
+}
+
+#myBtn {
+    height: 40px;
+    width: 100px;
+    background-color: #008000; 
+    color: #ffffff;
+}
+
+#myBtn:hover {
+    background-color: #004d00; 
+}
