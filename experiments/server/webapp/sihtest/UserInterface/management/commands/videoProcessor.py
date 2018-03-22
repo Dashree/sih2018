@@ -4,7 +4,7 @@ import subprocess, time, os, sys
 import moviepy.editor as moviepy
 
 class videoProcessor:
-    def concat(self, file): 
+    def concat(self, file, res, d): 
         command = ['ffmpeg',
                '-f', 'concat',
                '-safe', '0',
@@ -13,15 +13,16 @@ class videoProcessor:
                '-flags', 'global_header',
                'video1.webm']
         subprocess.run(command)
-        os.remove('video.webm')
-        os.rename('video1.webm', 'video.webm')
+        os.remove('video%d%d.webm'%(res,d))
+        os.rename('video1.webm', 'video%d%d.webm'%(res,d))
     
     def createVideo(self, imagePath, width, height, duration):
-        imagePath = event.src_path
+        #imagePath = event.src_path
         #dirPath = os.path.dirname(event.src_path)
         #print(os.path.basename(event.src_path))
-        for res in range(width):
-            for d in range(duration):
-                clip = moviepy.ImageClip(imagePath, duration=int(duration[d]))
+        print(imagePath)
+        for res in range(len(width)):
+            for d in range(len(duration)):
+                clip = moviepy.ImageClip(imagePath, duration=duration[d])
                 clip.resize(newsize=(width[res],height[res])).write_videofile('singleVideo%d%d.webm'%(res,d), fps=11,codec='libvpx-vp9')
 
