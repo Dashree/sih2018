@@ -5,5 +5,4 @@ def index(request):
     return HttpResponse("UserInterface Created")
 
 def video(request):
-    return render(request, 'UserInterface/video.html')
-    
+    return render(request, 'UserInterface/Page2.html')
