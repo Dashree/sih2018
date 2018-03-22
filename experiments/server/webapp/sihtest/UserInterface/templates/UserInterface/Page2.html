@@ -1,85 +1,111 @@
 <!DOCTYPE html>
 <html>
+<title>Option</title>
 
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" href="CSS\style.css">
+    <!--link rel="stylesheet" href="style.css"-->
+    <link rel='stylesheet' type='text/css' href='http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css' />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 
-<body>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-sm-5">
-                <h3>From</h3>
-                <div class="col-sm-7">
-                    <form action="/action_page.php">
-                        <input class="form-control" type="date" name="date" placeholder="DD/MM/YYYY">
-                    </form>
-                </div>
+<body style="background: url(image.jpg);background-size: cover;">
+    <img src="isro.png" style="position:absolute; right:0 ; top:0; width:100px; height:100px;">
+    <img src="l5.png" style="position:absolute; width:100px; height:100px;">
+    <div style="padding: 100px 100px;" class="container-fluid">
+        <form action="CustomisedAnimation.html">
+            <div class="row">
                 <div class="col-sm-5">
-                    <p id="FromTime">
-                        <script src="TIME.js"></script>
-                    </p>
+                    <h3 style="color:#ffffff">From
+                        <span style="color: #ff161a">*</span>
+                    </h3>
+                    <div class="col-sm-7">
+                        <input style="height:40px;" class="form-control" type="date" name="date" required>
+                    </div>
+                    <div class="col-sm-5">
+                        <p id="FromTime">
+                            <script src="TIME.js"></script>
+                        </p>
+                    </div>
+                </div>
+                <div class="col-sm-1"></div>
+                <div class="col-sm-5">
+                    <h3 style="color:#ffffff">To
+                        <span style="color: #ff161a">*</span>
+                    </h3>
+                    <div class="col-sm-7">
+                        <input class="form-control" type="date" name="date" required>
+                    </div>
+                    <div class="col-sm-5">
+                        <p id="ToTime">
+                            <script src="TIME.js"></script>
+                        </p>
+                    </div>
                 </div>
             </div>
-            <div class="col-sm-1"></div>
-            <div class="col-sm-5">
-                <h3>To</h3>
-                <div class="col-sm-7">
-                    <form action="/action_page.php">
-                        <input class="form-control" type="date" name="date" placeholder="DD/MM/YYYY">
-                    </form>
-                </div>
+            <br>
+            <br>
+            <div class="row">
                 <div class="col-sm-5">
-                    <p id="ToTime">
-                        <script src="TIME.js"></script>
-                    </p>
-                </div>
-            </div>
-        </div>
-        <br>
-        <br>
-        <div class="row">
-            <div class="col-sm-5">
-                <h3>Resolution</h3>
-                <div class="col-sm-8">
-                    <form>
-                        <select class="form-control" id="Resolution" required>
-                            <option value="Resolution" style="color: #d6d6c2;" selected>Resolution</option>
+                    <h3 style="color: #ffffff;">Resolution
+                        <span style="color: #ff161a">*</span>
+                    </h3>
+                    <div class="col-sm-8">
+                        <select class="form-control" id="Resolution" style="height: 40px;" required >
+                            <option value="" style="color: #161615;" selected>Resolution</option>
                             <option value="360">360</option>
                             <option value="720">720</option>
                             <option value="1080">1080</option>
                             <option value="1440">1440</option>
                         </select>
-                    </form>
+                    </div>
                 </div>
-            </div>
-            <div class="col-sm-1"></div>
-            <div class="col-sm-5">
-                <h3>Image per Second</h3>
-                <div class="col-sm-8">
-                    <form>
-                        <select class="form-control" id="FPS" required>
-                            <option value="fps" style="color: #d6d6c2;" selected>Images per second</option>
+                <div class="col-sm-1"></div>
+                <div class="col-sm-5">
+                    <h3 style="color:#ffffff">Image per Second
+                        <span style="color: #ff161a">*</span>
+                    </h3>
+                    <div class="col-sm-8">
+                        <select class="form-control" style="height: 40px;"required>
+                            <option value="" style="color: #161615;" selected>Images per second</option>
                             <option value="0.5">0.5</option>
                             <option value="1">1</option>
                             <option value="2">2</option>
                             <option value="2.5">2.5</option>
                         </select>
-                    </form>
+                    </div>
                 </div>
             </div>
-        </div>
-        <br>
-        <br>
-        <div class="row text-center">
-           <div class="col-sm-11"><button id="myBtn" class="btn btn-default" type="submit">Next</button>
-           </div>
-        </div>
+            <br>
+            <br>
+            <br>
+            <br>
+            <div class="col-sm-11 text-center">
+                <input class="btn btn-default" style="height: 40px;
+                width: 100px;
+                background-color: #008000;
+                color: #ffffff;" type="submit" value="Proceed">
+            </div>
+        </form>
     </div>
+
+    <script>
+        function setTime() {
+            var select = '<select name="time" class="form-control" required>';
+            for (var hour = 00; hour < 24; hour++) {
+                select += '<option>' + hour + ':00 </option>';
+                select += '<option>' + hour + ':30 </option>';
+            }
+            select += '</select>';
+            return select;
+        }
+        document.getElementById("FromTime").innerHTML = setTime();
+        document.getElementById("ToTime").innerHTML = setTime();
+    </script>
 
 </body>
 
