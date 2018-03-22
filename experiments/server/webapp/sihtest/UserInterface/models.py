@@ -1,27 +1,25 @@
 from django.db import models
 import os
+from datetime import datetime
 # Create your models here.
 
-class EntryDate(models.Model):
-    entry = models.DateTimeField(auto_now_add=True)
-
 def upload_path_videos(instance, filename):
-    directory =os.path.dirname('videos/{date}').format(date = instance.date)
+    directory =os.path.dirname('videos/{date}'%(instance.date))
     if not os.path.exists(directory):
         os.makedirs(directory)
-    directory =os.path.dirname('videos/{date}/{res}').format(date = instance.date, res=instance.res)
+    directory =os.path.dirname('videos/{date}/{res}'%(instance.date, instance.res))
     if not os.path.exists(directory):
         os.makedirs(directory)
-    directory =os.path.dirname('videos/{date}/{res}/{fps}').format(date = instance.date, res=instance.resfield, fps =instance.fpsfield)
+    directory =os.path.dirname('videos/{date}/{res}/{fps}'%(instance.date, instance.resfield, instance.fpsfield))
     if not os.path.exists(directory):
         os.makedirs(directory)
-    return "videos/{date}/{res}/{fps}/{file}".format(date = instance.date, res=instance.resfield, fps =instance.fpsfield, file=filename)
+    return "videos/{date}/{res}/{fps}/{file}"%(instance.date, instance.resfield, instance.fpsfield, filename)
                                 # ^ 4 fps folders per resolution
 def upload_path_images(instance, filename):
-    directory =os.path.dirname('images/{date}').format(date = instance.date)
+    directory =os.path.dirname('/mnt/c/sih2018/experiments/worker/images/{date}'%(instance.date))
     if not os.path.exists(directory):
         os.makedirs(directory)    
-    return "images/{date}/{file}".format(date = instance.date,file=filename)
+    return "/mnt/c/sih2018/experiments/worker/images/{date}/{file}"%(instance.date, filename)
 
 class PnC(models.Model):
    # res = [360, 720, 1080, 1440]
@@ -45,5 +43,10 @@ class PnC(models.Model):
 
 
 class upload_image(models.Model):
-    uploadpath = models.ImageField(upload_to=upload_path_images)
-    date = models.DateTimeField(auto_now_add=True)
+    date = models.DateField(auto_now_add=True)
+    directory =os.path.dirname('/mnt/c/sih2018/experiments/worker/images/{date}' + (str(date)))
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+    uploadpath = models.ImageField(upload_to = '{date}/' + (str(date)))
+
+    

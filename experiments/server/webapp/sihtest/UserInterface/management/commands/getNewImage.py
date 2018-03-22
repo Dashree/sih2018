@@ -6,7 +6,7 @@ from watchdog.observers import Observer
 from watchdog.events import PatternMatchingEventHandler
 import subprocess, time, os
 from datetime import datetime
-from . import videoProcessor
+from videoProcessor import videoProcessor
 
 from UserInterface.models import upload_image
 import UserInterface.views
@@ -24,7 +24,7 @@ class Handler(PatternMatchingEventHandler):
         #print(event.src_path)
         #print(os.path.basename(event.src_path))
         date = datetime.now()
-        newimage = upload_image(uploadpath = os.path.basename(event.src_path), date = datetime.now().strftime('%Y-%m-%d'))
+        newimage = upload_image(uploadpath = os.path.basename(event.src_path))
         newimage.save()
         videoP = videoProcessor()
         videoP.createVideo(self, event.src_path, self.width, self.height, self.duration)
@@ -54,6 +54,6 @@ class Command(BaseCommand):
     def handle(self, **options):
         observer = Observer()
         event_handler = Handler()
-        observer.schedule(event_handler, '/mnt/c/Hackthon/sih2018/experiments/worker/images', recursive=True)
+        observer.schedule(event_handler, '/mnt/c/sih2018/experiments/worker/images', recursive=True)
         observer.start()
         observer.join()
