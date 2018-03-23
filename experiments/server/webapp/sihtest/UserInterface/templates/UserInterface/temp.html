@@ -1,0 +1,6 @@
+<form action="temp" method="post">
+    {% csrf_token %}
+    {{ form }}
+    <!--input type="date" name="{{form.FromDate.name}}" required-->
+    <input type="submit" value="Submit" />
+</form>

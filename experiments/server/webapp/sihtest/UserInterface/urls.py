@@ -3,6 +3,7 @@ from django.conf.urls import url
 from . import views
 
 urlpatterns = [
-    path('video', views.video, name='video'), 
+    path('video', views.video, name='video'),
+    path('temp', views.get_name, name='temp'),
     url(r'^$', views.index, name='index'),
 ]

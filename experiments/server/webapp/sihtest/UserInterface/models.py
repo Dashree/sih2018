@@ -47,6 +47,6 @@ class upload_image(models.Model):
     directory =os.path.dirname('/mnt/c/sih2018/experiments/worker/images/{date}' + (str(date)))
     if not os.path.exists(directory):
         os.makedirs(directory)
-    uploadpath = models.ImageField(upload_to = '{date}/' + (str(date)))
+    uploadpath = models.FileField(upload_to = '{date}/' + (str(date)))
 
     
