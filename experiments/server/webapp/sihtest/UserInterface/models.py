@@ -40,8 +40,13 @@ class PnC(models.Model):
     )
     resfield = models.IntegerField(choices=res)                 # to get 1 resolution
     fpsfield = models.IntegerField(choices=fps)                 # to get one frame per sec value
+<<<<<<< working copy
+    upload = models.FileField(upload_to='videos/%Y-%m-%d/{res}/{fps}' + str(resfield) + str(fpsfield))    # to upload it to a folder
+    date = models.DateField(auto_now_add=True)   # passing a reference to the EntryDate
+=======
     upload = models.FileField(upload_to='videos/%Y-%m-%d/{res}/{fps}' + str(resfield, fpsfield))    # to upload it to a folder
     date = models.DateField()   # passing a reference to the EntryDate
+>>>>>>> merge rev
 
     def __str__(self):
         return str(self.upload)

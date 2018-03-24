@@ -1,0 +1,13 @@
+<form action="Options" method="post">
+    {% csrf_token %}
+    {{ form }}
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+            {% endfor %}
+    </ul>
+    {% endif %} 
+    <!--input type="date" name="{{form.FromDate.name}}" required-->
+    <input type="submit" value="Submit" />
+</form>
