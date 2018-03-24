@@ -1,6 +1,11 @@
 <form action="temp" method="post">
-    {% csrf_token %}
-    {{ form }}
+    {% csrf_token %} {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+            {% endfor %}
+    </ul>
+    {% endif %} {{ form }}
     <!--input type="date" name="{{form.FromDate.name}}" required-->
     <input type="submit" value="Submit" />
 </form>

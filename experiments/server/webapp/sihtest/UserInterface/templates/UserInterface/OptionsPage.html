@@ -4,6 +4,7 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="csrf_token" content="{{ csrf_token }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -13,18 +14,19 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 
-<body style="background: url(image.jpg);background-size: cover;">
+<body style="background: url(image.jpg); background-size: cover;">
     <img src="isro.png" style="position:absolute; right:0 ; top:0; width:100px; height:100px;">
     <img src="l5.png" style="position:absolute; width:100px; height:100px;">
     <div style="padding: 100px 100px;" class="container-fluid">
-        <form action="CustomisedAnimation.html">
+        <form action="Options" method="POST">
+            {% csrf_token %}
             <div class="row">
                 <div class="col-sm-5">
                     <h3 style="color:#ffffff">From
                         <span style="color: #ff161a">*</span>
                     </h3>
                     <div class="col-sm-7">
-                        <input style="height:40px;" class="form-control" type="date" name="date" required>
+                        <input style="height:40px;" class="form-control" type="date" name="FromDate" required>
                     </div>
                     <div class="col-sm-5">
                         <p id="FromTime">
@@ -105,6 +107,23 @@
         }
         document.getElementById("FromTime").innerHTML = setTime();
         document.getElementById("ToTime").innerHTML = setTime();
+
+        function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+var csrftoken = getCookie('csrftoken');
     </script>
 
 </body>

@@ -4,6 +4,6 @@ from . import views
 
 urlpatterns = [
     path('video', views.video, name='video'),
-    path('temp', views.get_name, name='temp'),
+    path('Options', views.get_name, name='OptionsPage'),
     url(r'^$', views.index, name='index'),
 ]
