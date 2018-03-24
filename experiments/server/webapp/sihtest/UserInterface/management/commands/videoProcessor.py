@@ -5,6 +5,37 @@ import moviepy.editor as moviepy
 from PIL import Image
 
 class videoProcessor:
+    def __init__(self,imagePath):
+        self.imagePath = imagePath
+        self.width = [2560, 1920, 1280, 640]
+        self.height = [1440, 1080, 720, 360]
+        self.duration = [0.5, 1, 2 , 3]
+        self.day = 0
+        self.n = [[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]]
+
+    def demuxerInput(self):
+        for res in range(len(self.width)):
+            for d in range(len(self.duration)):
+                if(os.path.exists('concat%d%d.txt'%(res,d)) and self.day <= 47):
+                    if(self.n[res][d] == 1):
+                        f = open('concat%d%d.txt'%(res,d), 'a')
+                        f.write("\n" + "file 'singleVideo_%d_%d.webm'"%(self.height[res],self.duration[d]))
+                        self.n[res][d] = 0
+                        f.close()
+                          
+                else:
+                     os.rename('singleVideo_%d_%d.webm'%(self.height[res],self.duration[d]), 'video_%d_%d.webm'%(self.height[res],self.duration[d]))
+                     f = open('concat%d%d.txt'%(res,d), 'w') 
+                     f.write("file 'video_%d_%d.webm'"%(self.height[res],self.duration[d]))
+                     f.close()
+                     self.n[res][d] = 1
+                     self.day = 0
+            
+                print("%d%d"%(res,d))
+                if(self.n[res][d] != 1):
+                    videoP.concat('concat%d%d.txt'%(res,d), res, d)
+                    self.day += 1
+        
     def concat(self, file, res, d): 
         command = ['ffmpeg',
                '-f', 'concat',
