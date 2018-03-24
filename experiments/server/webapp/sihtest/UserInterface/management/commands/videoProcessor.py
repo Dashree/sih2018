@@ -2,6 +2,7 @@ from watchdog.observers import Observer
 from watchdog.events import PatternMatchingEventHandler
 import subprocess, time, os, sys
 import moviepy.editor as moviepy
+from PIL import Image
 
 class videoProcessor:
     def concat(self, file, res, d): 
@@ -21,8 +22,13 @@ class videoProcessor:
         #dirPath = os.path.dirname(event.src_path)
         #print(os.path.basename(event.src_path))
         print(imagePath)
+        im = Image.open(imagePath)
+        width1, height1 = im.size
         for res in range(len(width)):
             for d in range(len(duration)):
                 clip = moviepy.ImageClip(imagePath, duration=duration[d])
-                clip.resize(newsize=(width[res],height[res])).write_videofile('singleVideo%d%d.webm'%(res,d), fps=11,codec='libvpx-vp9')
+                if(width1 <= 360 and height1 <= 360):
+                    clip.write_videofile('singleVideo%d%d.webm'%(res, d), fps=11, codec='libvpx-vp9', ffmpeg_params=['-lossless','1'])
+                else:
+                    clip.resize(newsize=(width[res],height[res])).write_videofile('singleVideo%d%d.webm'%(res,d), fps=11, codec='libvpx-vp9', ffmpeg_params=['-lossless','1'])
 
