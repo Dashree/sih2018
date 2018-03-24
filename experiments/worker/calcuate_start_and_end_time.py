@@ -1,26 +1,37 @@
 from datetime import datetime
 from datetime import timedelta
-d1=datetime(2018,9,1,17,00,00)
-d2=datetime(2018,9,2,19,30,00)
-d3=d2-d1
-day=d3.days
-h1=d1.hour
-m1=d1.minute
-h2=d3.seconds/3600
-m=d3.seconds/60-m1
-fps=1
-def calculate():
+#startDT is the first days date and time(datetime)
+#endDT is the last days date and time(datetime)
+def calculate(startDT, endDT, duration):
+    d3=endDT-startDT #overall difference(date and time)
+    print(d3)
+    day=d3.days #no. of days in the difference
+    print(day)
+    h1=startDT.hour
+    print(h1)
+    m1=startDT.minute
+    print(m1)
+    h2=endDT.hour 
+    print(h2)
+    #m=d3.seconds/60-m1
+    m=endDT.minute
+    print(m)
+    #calculation of start time
     if(m1!=30):
-       start=h1*2*fps
+       start=h1*2*duration
     else:
-       start=h1*2*fps+1
-    if(m%30==0):
-       end=int(day*48*fps+h2*2*fps)
+       startTime=(h1*2+1)*duration #multiplied by 2 for 2 images per hour and added 1 for extra image in the next half hour
+    #calculation of end time    
+    if(m != 30):
+       endTime=day*48*duration+h2*2*duration
     else:
-       end=int(day*48*fps+h2*2*fps+1)
+       endTime=day*48*duration+(h2*2+1)*duration
+    if(startDT.date() == endDT.date()):#for same day
+        endTime = endTime + startTime
+    
+    print(startTime)
+    print(endTime)
+   
 
-    print(start)
-    print(end)
 
-
-calculate()
+calculate(datetime(2018,8,1,17,30,00),datetime(2019,9,1,19,30,00),0.5)
