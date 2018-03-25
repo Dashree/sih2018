@@ -13,41 +13,71 @@ class VideoProcessor(object):
         self.duration = [0.5, 1, 2 , 3]
         self.day = 0
         self.n = [[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]]
+
     
+    def multipleDemuxInput(self, nVideo,res,d):
+        f = open('nconcat.txt','a')
+        for n in range(len(nVideo)):
+            f.write("file '%s'"%nVideo[n]+"\n")
+        concat(nconcat.txt,res,d)#here res and d is user input
+        
     
     def copyImage(self):
         imageName = os.path.basename(self.imageSrc)
         list = imageName.split("_")
         print(list[1], list[2])
+        self.date = str(list[1]);
         self.dateImagePath = 'media/' + str(list[1]) + '/images'
-        self.destImagePath = os.path.join(settings.BASE_DIR,os.path.join(self.dateImagePath, os.path.basename(self.imageSrc)))
-        directory = os.path.dirname(self.destImagePath)
+        self.destImagePath = os.path.join(settings.BASE_DIR, os.path.join(self.dateImagePath, os.path.basename(self.imageSrc)))
+        directory = os.path.dirname(os.path.join(settings.BASE_DIR, os.path.join(self.dateImagePath, os.path.basename(self.imageSrc))))
         if not os.path.exists(directory):
             os.makedirs(directory)
         shutil.copy(self.imageSrc, self.destImagePath)
 
+    def copyVideo(self, videoName):
+        self.dateVideoPath = 'media/' + self.date + '/videos'
+        self.destVideoPath = os.path.join(settings.BASE_DIR, os.path.join(self.dateVideoPath, videoName))
+        directory = os.path.dirname(os.path.join(settings.BASE_DIR, os.path.join(self.dateVideoPath, videoName)))
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+        shutil.move(videoName, self.destVideoPath)
+
+    def multipleCopyVideo(self,videoNames):
+        self.destVideoPath = os.path.join(settings.BASE_DIR, os.path.join('media/output/', videoNames))
+        directory = os.path.dirname(os.path.join(settings.BASE_DIR, os.path.join('media/output/', videoNames)))
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+        shutil.move(videoName, self.destVideoPath)
+    
     def getImagePath(self):
         return self.destImagePath
     
+    def getVideosPath(self):
+        return os.path.join(settings.BASE_DIR, self.dateVideoPath)
+
+    def getDate(self):
+        return self.date
+
     def demuxerInput(self):
         for res in range(len(self.width)):
             for d in range(len(self.duration)):
-                if(os.path.exists('concat%d%d.txt'%(res,d)) and self.day <= 47):
-                    if(self.n[res][d] == 1):
+                if(os.path.exists('concat%d%d.txt'%(res,d)) and self.day <= 47): 
+                    if(self.n[res][d] == 1): #to append concat.txt only once
                         f = open('concat%d%d.txt'%(res,d), 'a')
                         f.write("\n" + "file 'singleVideo_%d_%d.webm'"%(self.height[res],self.duration[d]))
                         self.n[res][d] = 0
                         f.close()
                           
-                else:
+                else: #does not exist then first entry in create.txt(rename singlevideo to video)
                      os.rename('singleVideo_%d_%d.webm'%(self.height[res],self.duration[d]), 'video_%d_%d.webm'%(self.height[res],self.duration[d]))
                      f = open('concat%d%d.txt'%(res,d), 'w') 
                      f.write("file 'video_%d_%d.webm'"%(self.height[res],self.duration[d]))
                      f.close()
-                     self.n[res][d] = 1
-                     self.day = 0
+                     self.n[res][d] = 1 # to indicate creation of concat.txt
+                     self.day = 0 #48 images per day's video
+                     self.copyVideo('video_%d_%d.webm'%(self.height[res],self.duration[d]))
                 
-                if(self.n[res][d] != 1):
+                if(self.n[res][d] != 1): #two entries in concat.txt so concat them
                     self.concat('concat%d%d.txt'%(res,d), res, d)
                     self.day += 1
         
@@ -61,7 +91,13 @@ class VideoProcessor(object):
                'video1.webm']
         subprocess.run(command)
         os.remove('video_%d_%d.webm'%(self.height[res],self.duration[d]))
-        os.rename('video1.webm', 'video_%d_%d.webm'%(self.height[res],self.duration[d]))
+        if(file == 'nconcat.txt'):
+            os.rename('video1.webm', 'outputvideo_%d_%d.webm'%(self.height[res],self.duration[d]))
+            self.multipleCopyVideo('outputvideo_%d_%d.webm'%(self.height[res],self.duration[d])) 
+            os.remove('nconcat.txt')
+        else:
+            os.rename('video1.webm', 'video_%d_%d.webm'%(self.height[res],self.duration[d]))
+            self.copyVideo('video_%d_%d.webm'%(self.height[res],self.duration[d]))
     
     def createVideo(self):
         #imagePath = event.src_path
