@@ -26,6 +26,12 @@ class VideoProcessor(object):
             os.makedirs(directory)
         shutil.copy(self.imageSrc, self.destImagePath)
 
+    def multipleDemuxInput(self, nVideo,res,d):
+        f = open('nconcat.txt','a')
+        for n in range(len(nVideo)):
+            f.write("file '%s'"%nVideo[n]+"\n")
+        concat(nconcat.txt,res,d)#here res and d is user input
+
     def getImagePath(self):
         return self.destImagePath
     
@@ -62,6 +68,8 @@ class VideoProcessor(object):
         subprocess.run(command)
         os.remove('video_%d_%d.webm'%(self.height[res],self.duration[d]))
         os.rename('video1.webm', 'video_%d_%d.webm'%(self.height[res],self.duration[d]))
+        if(file == 'nconcat.txt'):
+            os.remove('nconcat.txt')
     
     def createVideo(self):
         #imagePath = event.src_path
