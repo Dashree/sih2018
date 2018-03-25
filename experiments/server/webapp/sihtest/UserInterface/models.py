@@ -1,6 +1,7 @@
 from django.db import models
 import os
 from datetime import date
+
 """
 # Create your models here.
 
@@ -23,7 +24,7 @@ from datetime import date
 #         os.makedirs(directory)
 #     return "/mnt/c/sih2018/experiments/worker/images/{date}/{file}"%(instance.date, filename)
 """
-class PnC(models.Model):
+class videoDir(models.Model):
    # res = [360, 720, 1080, 1440]
    # fps = [0.5, 1, 2, 4]
     res = (
@@ -40,13 +41,8 @@ class PnC(models.Model):
     )
     resfield = models.IntegerField(choices=res)                 # to get 1 resolution
     fpsfield = models.IntegerField(choices=fps)                 # to get one frame per sec value
-<<<<<<< working copy
-    upload = models.FileField(upload_to='videos/%Y-%m-%d/{res}/{fps}' + str(resfield) + str(fpsfield))    # to upload it to a folder
-    date = models.DateField(auto_now_add=True)   # passing a reference to the EntryDate
-=======
-    upload = models.FileField(upload_to='videos/%Y-%m-%d/{res}/{fps}' + str(resfield, fpsfield))    # to upload it to a folder
+    upload = models.TextField()    # to upload it to a folder
     date = models.DateField()   # passing a reference to the EntryDate
->>>>>>> merge rev
 
     def __str__(self):
         return str(self.upload)
@@ -56,7 +52,7 @@ class upload_image(models.Model):
     # directory =os.path.dirname('/mnt/c/sih2018/experiments/worker/images/{date}' + (str(date)))
     # if not os.path.exists(directory):
     #     os.makedirs(directory)
-    uploadpath = models.FileField(upload_to='images/%Y-%m-%d')
+    uploadpath = models.TextField()
 
     def __str__(self):
         return str(self.uploadpath)
