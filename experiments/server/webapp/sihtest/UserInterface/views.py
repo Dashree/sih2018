@@ -22,7 +22,7 @@ def option(request):
             totime = form.cleaned_data['ToTime']
             res = form.cleaned_data['Resolution']
             fps = form.cleaned_data['FPS']
-            return render(request, 'UserInterface/' + str(fromdate) + '/' + str(res) + '/' + str(fps) + '/TrialVideo.html')
+            return render(request, 'UserInterface/TrialVideo.html')
     else:
         form = OptionsForm()
     return render(request, 'UserInterface/TrialOptionsForm.html', {'form' : form})
