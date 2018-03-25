@@ -40,9 +40,15 @@ class VideoProcessor(object):
         directory = os.path.dirname(os.path.join(settings.BASE_DIR, os.path.join(self.dateVideoPath, videoName)))
         if not os.path.exists(directory):
             os.makedirs(directory)
-        shutil.copy(videoName, self.destVideoPath)
+        shutil.move(videoName, self.destVideoPath)
 
-        
+    def multipleCopyVideo(self,videoNames):
+        self.destVideoPath = os.path.join(settings.BASE_DIR, os.path.join('media/output/', videoNames))
+        directory = os.path.dirname(os.path.join(settings.BASE_DIR, os.path.join('media/output/', videoNames)))
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+        shutil.move(videoName, self.destVideoPath)
+    
     def getImagePath(self):
         return self.destImagePath
     
@@ -69,6 +75,7 @@ class VideoProcessor(object):
                      f.close()
                      self.n[res][d] = 1 # to indicate creation of concat.txt
                      self.day = 0 #48 images per day's video
+                     self.copyVideo('video_%d_%d.webm'%(self.height[res],self.duration[d]))
                 
                 if(self.n[res][d] != 1): #two entries in concat.txt so concat them
                     self.concat('concat%d%d.txt'%(res,d), res, d)
@@ -84,8 +91,13 @@ class VideoProcessor(object):
                'video1.webm']
         subprocess.run(command)
         os.remove('video_%d_%d.webm'%(self.height[res],self.duration[d]))
-        os.rename('video1.webm', 'video_%d_%d.webm'%(self.height[res],self.duration[d]))
-        self.copyVideo('video_%d_%d.webm'%(self.height[res],self.duration[d]))
+        if(file == 'nconcat.txt'):
+            os.rename('video1.webm', 'outputvideo_%d_%d.webm'%(self.height[res],self.duration[d]))
+            self.multipleCopyVideo('outputvideo_%d_%d.webm'%(self.height[res],self.duration[d])) 
+            os.remove('nconcat.txt')
+        else:
+            os.rename('video1.webm', 'video_%d_%d.webm'%(self.height[res],self.duration[d]))
+            self.copyVideo('video_%d_%d.webm'%(self.height[res],self.duration[d]))
     
     def createVideo(self):
         #imagePath = event.src_path

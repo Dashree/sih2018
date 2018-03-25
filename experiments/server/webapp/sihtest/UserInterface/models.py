@@ -43,8 +43,8 @@ class videoDir(models.Model):
     upload = models.TextField()    # to upload it to a folder
     date = models.DateField()   # passing a reference to the EntryDate
 
-    class Meta:
-        unique_together = ('fpsfield', 'resfield', 'date',)
+##    class Meta:
+##        unique_together = ('fpsfield', 'resfield', 'date',)
 
     def __str__(self):
         return str(self.upload)

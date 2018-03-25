@@ -40,6 +40,8 @@ class Handler(PatternMatchingEventHandler):
             videoDur= videoName[2].split(".")
             newVideo = videoDir(resfield=videoName[1],fpsfield=videoDur[0],upload=os.path.join(videoP.getVideosPath(),videoList[video]),date=datetime.strptime(videoP.getDate(), '%d%b%Y'))
             newVideo.save()
+        videoP.multipleDemuxInput(videoList,720,1)
+
         
 
 class Command(BaseCommand):
