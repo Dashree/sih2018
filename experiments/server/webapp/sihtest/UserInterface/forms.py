@@ -15,22 +15,15 @@ class OptionsForm(forms.Form):
     def check_date(self):
         fromdate = self.cleaned_data['FromDate']
         todate = self.cleaned_data['ToDate']
-
         if fromdate > datetime.date.today() or todate > datetime.date.today() or todate < fromdate:
             list_date = None
         else:
             list_date = [fromdate, todate]
         return list_date
 
-    def check_time(self):
-        fromtime = self.cleaned_data['FromTime']
-        totime = self.cleaned_data['ToTime']
-        list_time = [fromtime, totime]
-
-
-    def check_res_fps(self):
-        res = self.cleaned_data['Resolution']
-        fps = self.cleaned_data['FPS']
-        list_res_fps = [res, fps]
-        return list_res_fps
+class LoginForm(forms.Form):
+    Username = forms.CharField()
+    Password = forms.CharField(
+        widget=forms.PasswordInput
+    )
 
