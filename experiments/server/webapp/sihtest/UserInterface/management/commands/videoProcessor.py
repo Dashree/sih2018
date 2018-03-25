@@ -20,11 +20,11 @@ class VideoProcessor(object):
         list = imageName.split("_")
         print(list[1], list[2])
         self.dateImagePath = 'media/' + str(list[1]) + '/images'
-        self.destImagePath = os.path.join(settings.BASE_DIR,os.path.join(dateImagePath, os.path.basename(self.imageSrc)))
-        directory = os.path.dirname(os.path.join(settings.BASE_DIR,os.path.join(dateImagePath, os.path.basename(self.imageSrc))))
+        self.destImagePath = os.path.join(settings.BASE_DIR,os.path.join(self.dateImagePath, os.path.basename(self.imageSrc)))
+        directory = os.path.dirname(self.destImagePath)
         if not os.path.exists(directory):
             os.makedirs(directory)
-        shutil.copy(self.imageSrc, destImagePath)
+        shutil.copy(self.imageSrc, self.destImagePath)
 
     def getImagePath(self):
         return self.destImagePath
