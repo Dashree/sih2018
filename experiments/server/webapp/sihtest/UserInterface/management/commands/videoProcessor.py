@@ -5,6 +5,7 @@ import moviepy.editor as moviepy
 from PIL import Image
 from django.conf import settings
 
+
 class VideoProcessor(object):
     def __init__(self,imageSrc):
         self.imageSrc = imageSrc
@@ -13,28 +14,25 @@ class VideoProcessor(object):
         self.duration = [0.5, 1, 2 , 3]
         self.day = 0
         self.n = [[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]]
-    
-    
+
     def copyImage(self):
         imageName = os.path.basename(self.imageSrc)
         list = imageName.split("_")
         print(list[1], list[2])
+        self.date = str(list[1]);
         self.dateImagePath = 'media/' + str(list[1]) + '/images'
-        self.destImagePath = os.path.join(settings.BASE_DIR,os.path.join(self.dateImagePath, os.path.basename(self.imageSrc)))
-        directory = os.path.dirname(self.destImagePath)
+        self.destImagePath = os.path.join(settings.BASE_DIR, os.path.join(self.dateImagePath, os.path.basename(self.imageSrc)))
+        directory = os.path.dirname(os.path.join(settings.BASE_DIR, os.path.join(self.dateImagePath, os.path.basename(self.imageSrc))))
         if not os.path.exists(directory):
             os.makedirs(directory)
         shutil.copy(self.imageSrc, self.destImagePath)
 
-    def multipleDemuxInput(self, nVideo,res,d):
-        f = open('nconcat.txt','a')
-        for n in range(len(nVideo)):
-            f.write("file '%s'"%nVideo[n]+"\n")
-        concat(nconcat.txt,res,d)#here res and d is user input
-
     def getImagePath(self):
         return self.destImagePath
-    
+
+    def getImageDate(self):
+        return self.date
+
     def demuxerInput(self):
         for res in range(len(self.width)):
             for d in range(len(self.duration)):
@@ -68,8 +66,6 @@ class VideoProcessor(object):
         subprocess.run(command)
         os.remove('video_%d_%d.webm'%(self.height[res],self.duration[d]))
         os.rename('video1.webm', 'video_%d_%d.webm'%(self.height[res],self.duration[d]))
-        if(file == 'nconcat.txt'):
-            os.remove('nconcat.txt')
     
     def createVideo(self):
         #imagePath = event.src_path

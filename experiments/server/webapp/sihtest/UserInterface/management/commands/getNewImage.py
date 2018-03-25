@@ -2,7 +2,7 @@
 print the name of the added image which triggered the event
 '''
 import subprocess, time, os
-from datetime import date
+from datetime import date, datetime
 
 from watchdog.observers import Observer
 from watchdog.events import PatternMatchingEventHandler
@@ -32,13 +32,15 @@ class Handler(PatternMatchingEventHandler):
         #width=int(sys.argv[1]) //import width and height according to resolution from views 
         #height = int(sys.argv[2])// import duration from views(all three given by user)
         videoP.demuxerInput()
-        videoP.getImagePath()
+        #videoP.copyImage()
+        newimage = upload_image(date=datetime.strptime(videoP.getImageDate(), '%d%b%Y'), uploadpath=videoP.getImagePath())
+        newimage.save()
                 
 
 class Command(BaseCommand):
     def handle(self, **options):
         observer = Observer()
         event_handler = Handler()
-        observer.schedule(event_handler, '/mnt/c/images', recursive=True)
+        observer.schedule(event_handler, '/mnt/c/sih2018/sih2018/experiments/worker/images/', recursive=True)
         observer.start()
         observer.join()
