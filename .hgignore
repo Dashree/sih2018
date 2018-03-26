@@ -2,3 +2,6 @@ syntax: glob
 *.pyc
 *.orig
 __pycache__/*
+*.webm
+*.jpg
+*.png
