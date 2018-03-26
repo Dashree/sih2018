@@ -8,8 +8,19 @@
     <title>Document</title>
 </head>
 <body>
-    <video autoplay height="40%" width="50%" loop>
-    <source src="{{videopath}}#t=10,20"></source>
+    <video id="PlayVideo" height="40%" width="50%" autoplay>
+    <source src="{{videopath}}#t=10, 13"></source>
     </video>
+    <button onclick="SetStart()" type="button">Replay</button>
+  <!--script>
+    var vid = document.getElementById("PlayVideo");
+    function SetStart() {
+      if (vid.currentTime >= "{{ form.ToTime }}") {
+        vid.load();
+        vid.currentTime = "{{ form.FromTime }}";
+        vid.play();
+      }
+    }
+  </script-->
 </body>
 </html>
