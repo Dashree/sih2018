@@ -5,6 +5,6 @@ from . import views
 urlpatterns = [
     path('video', views.video, name='video'),
     path('Options', views.option, name='TrialOptionsForm'),
-    path('Login', views.login, name='LoginPage')
-   # url('', views.index, name='index'),
+    path('Login', views.loginuser, name='LoginPage')
+    #url('', views.index, name='index'),
 ]

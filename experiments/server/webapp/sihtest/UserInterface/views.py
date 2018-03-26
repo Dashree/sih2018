@@ -20,18 +20,21 @@ def option(request):
             fromdate = list_date[0]
             todate = list_date[1]
             fromtime = form.cleaned_data['FromTime']
+            print(fromtime)
             totime = form.cleaned_data['ToTime']
+            print(totime)
             res = form.cleaned_data['Resolution']
             fps = form.cleaned_data['FPS']
-           # videopath = settings.MEDIA_URL + str(fromdate) + '/videos/video_' + str(res) + '_' + str(fps) + '.webm'
+            #videopath = settings.MEDIA_URL + str(fromdate) + '/videos/video_' + str(res) + '_' + str(fps) + '.webm'
             videopath = settings.STATIC_URL + str(fromdate) + '/videos/video_' + str(res) + '_' + str(fps) + '.webm'
             print(videopath)
-            return render(request, 'UserInterface/TrialVideo.html', context={'videopath' : str(videopath)})
+            return render(request, 'UserInterface/TrialVideo.html', context={'videopath' : videopath, 'start' : str(fromtime).split(':')[2], 'end' : str(totime).split(':')[2]})
+           # return render(request, 'UserInterface/TrialVideo.html', context={'videopath' : videopath, 'start' : fromtime, 'end' : totime})
     else:
         form = OptionsForm()
     return render(request, 'UserInterface/TrialOptionsForm.html', {'form' : form})
 
-def login(request):
+def loginuser(request):
     if request.method == 'POST':
         print('In POST')
         form = LoginForm(request.POST)
@@ -45,10 +48,12 @@ def login(request):
             print('user', user)
             if user is not None:
                 print('In user in not none')
-                if user.is_active():
+                if user.is_active:
                     print('In user is active')
                     login(request, user)
-                    return redirect('UserInterface/TrialOptionsForm.html')
+                    print('Login Successful')
+                    return render(request, 'UserInterface/TrialOptionsForm.html', {'form' : OptionsForm()})
+                    
                 else:
                     return render(request, 'UserInterface/LoginPage.html', {'error_message': 'Account has been disabled'}, status=401)
             else:
