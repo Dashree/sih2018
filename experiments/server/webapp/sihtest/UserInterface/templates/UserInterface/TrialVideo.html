@@ -8,16 +8,16 @@
     <title>Document</title>
 </head>
 <body>
-    <video id="PlayVideo" height="40%" width="50%" autoplay>
-    <source src="{{videopath}}#t=10,20"></source>
+    <video id="PlayVideo" height="40%" width="50%" autoplay controls>
+    <source src="{{videopath}}#t={{ start }},{{ end }}"></source>
     </video>
     <button onclick="SetStart()" type="button">Replay</button>
   <script>
     var vid = document.getElementById("PlayVideo");
     function SetStart() {
-      if (vid.currentTime >= 20) {
+      if (vid.currentTime >= '{{ end }}') {
         vid.load();
-        vid.currentTime = 10;
+        vid.currentTime = '{{ start }}';
         vid.play();
       }
     }
