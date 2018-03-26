@@ -4,11 +4,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="csrf_token" content="{{ csrf_token }}">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <!--link rel="stylesheet" href="style.css"-->
     <link rel='stylesheet' type='text/css' href='http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css' />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -18,7 +14,7 @@
     <img src="isro.png" style="position:absolute; right:0 ; top:0; width:100px; height:100px;">
     <img src="l5.png" style="position:absolute; width:100px; height:100px;">
     <div style="padding: 100px 100px;" class="container-fluid">
-        <form action="Options" method="POST">
+        <form action="Options" method="post">
             {% csrf_token %}
             <div class="row">
                 <div class="col-sm-5">
@@ -26,11 +22,10 @@
                         <span style="color: #ff161a">*</span>
                     </h3>
                     <div class="col-sm-7">
-                        <input style="height:40px;" class="form-control" type="date" name="FromDate" required>
+                        <input style="height:40px;" class="form-control" type="date" name="{{ form.FromDate.name }}" required>
                     </div>
                     <div class="col-sm-5">
                         <p id="FromTime">
-                            <script src="TIME.js"></script>
                         </p>
                     </div>
                 </div>
@@ -44,7 +39,6 @@
                     </div>
                     <div class="col-sm-5">
                         <p id="ToTime">
-                            <script src="TIME.js"></script>
                         </p>
                     </div>
                 </div>
@@ -96,8 +90,8 @@
     </div>
 
     <script>
-        function setTime() {
-            var select = '<select name="time" class="form-control" required>';
+        function setTime(NAME) {
+            var select = '<select name=' + NAME + ' class="form-control" required>';
             for (var hour = 00; hour < 24; hour++) {
                 select += '<option>' + hour + ':00 </option>';
                 select += '<option>' + hour + ':30 </option>';
@@ -105,8 +99,8 @@
             select += '</select>';
             return select;
         }
-        document.getElementById("FromTime").innerHTML = setTime();
-        document.getElementById("ToTime").innerHTML = setTime();
+        document.getElementById("FromTime").innerHTML = setTime('{{ form.FromTime.name }}');
+        document.getElementById("ToTime").innerHTML = setTime('{{ form.ToDate.name }}');
 
         function getCookie(name) {
     var cookieValue = null;
