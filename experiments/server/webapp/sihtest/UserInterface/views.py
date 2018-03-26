@@ -23,7 +23,9 @@ def option(request):
             totime = form.cleaned_data['ToTime']
             res = form.cleaned_data['Resolution']
             fps = form.cleaned_data['FPS']
-            videopath = settings.MEDIA_URL + str(fromdate) + '/videos/video_' + str(res) + '_' + str(fps) + '.webm'
+           # videopath = settings.MEDIA_URL + str(fromdate) + '/videos/video_' + str(res) + '_' + str(fps) + '.webm'
+            videopath = settings.STATIC_URL + str(fromdate) + '/videos/video_' + str(res) + '_' + str(fps) + '.webm'
+            print(videopath)
             return render(request, 'UserInterface/TrialVideo.html', context={'videopath' : str(videopath)})
     else:
         form = OptionsForm()

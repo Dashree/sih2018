@@ -9,18 +9,18 @@
 </head>
 <body>
     <video id="PlayVideo" height="40%" width="50%" autoplay>
-    <source src="{{videopath}}#t=10, 13"></source>
+    <source src="{{videopath}}#t=10,20"></source>
     </video>
     <button onclick="SetStart()" type="button">Replay</button>
-  <!--script>
+  <script>
     var vid = document.getElementById("PlayVideo");
     function SetStart() {
-      if (vid.currentTime >= "{{ form.ToTime }}") {
+      if (vid.currentTime >= 20) {
         vid.load();
-        vid.currentTime = "{{ form.FromTime }}";
+        vid.currentTime = 10;
         vid.play();
       }
     }
-  </script-->
+  </script>
 </body>
 </html>
