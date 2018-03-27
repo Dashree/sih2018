@@ -32,8 +32,8 @@ def option(request):
             hour2 = str(totime).split(':')[0]
             min2 = str(totime).split(':')[1]
             sec = calculate(int(day.days), int(hour1), int(min1), int(hour2), int(min2), int(fps))
-            #videopath = settings.MEDIA_URL + str(fromdate) + '/videos/video_' + str(res) + '_' + str(fps) + '.webm'
-            videopath = settings.STATIC_URL + str(fromdate) + '/videos/video_' + str(res) + '_' + str(fps) + '.webm'
+            videopath = settings.MEDIA_URL + str(datetime.strptime(fromdate, '%d%b%Y') + '/videos/video_' + str(res) + '_' + str(fps) + '.webm' #write logic for convert 10-3-2018 to 03OCT2018
+            #videopath = settings.STATIC_URL + str(fromdate) + '/videos/video_' + str(res) + '_' + str(fps) + '.webm'
             print(videopath)
             #return render(request, 'UserInterface/TrialOptionsForm.html', context={'videopath' : videopath})#, 'start' : str(fromtime).split(':')[2], 'end' : str(totime).split(':')[2]})
             return render(request, 'UserInterface/playvideo.html', context={'videopath' : videopath, 'start' : sec[0], 'end' : sec[1]})
