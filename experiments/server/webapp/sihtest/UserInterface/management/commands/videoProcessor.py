@@ -16,9 +16,9 @@ class VideoProcessor(object):
 
     
     def multipleDemuxInput(self, nVideo,res,d):
-        f = open('nconcat.txt','a')
-        for n in range(len(nVideo)):
-            f.write("file '%s'"%nVideo[n]+"\n")
+        with open('nconcat.txt','a') as f:
+            for n in range(len(nVideo)):
+                f.write("file '%s'"%nVideo[n]+"\n") #append base path
         self.concat(nconcat.txt,res,d)#here res and d is user input
         
     
