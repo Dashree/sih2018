@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> {% load static %}
 <html lang="en">
 
 <head>
@@ -17,21 +17,31 @@
     <img src="isro.png" style="position:absolute; right:0 ; top:0; width:100px; height:100px;">
     <img src="l5.png" style="position:absolute; top:0;width:120px; height:120px; border-radius:50%;">
     <div class="container-fluid" style="padding: 200px 200px;">
-        <iframe width="854" height="480" src="https://www.youtube.com/embed/6s7OwBvB9bo?controls" allowfullscreen></iframe>
+        <video id="PlayVideo" height="60%" width="60%" autoplay controls>
+            <source src="{{videopath}}#t={{ start }},{{ end }}"></source>
+        </video>
+        <!--button onclick="SetStart()" type="button">Replay</button-->
         <br>
         <br>
         <br>
+        <form action="Options" method="get">
         <p align="center">
-            <a href="OptionsPage.html" class="btn btn-default" style="color: #ffffff; background-color: #008000;">
+            <button class="btn btn-default" style="color: #ffffff; background-color: #008000;">
                 <i class="fa fa-cog"></i> Reset Settings
-            </a>
+            </button>
         </p>
+    </form>
+        <script>
+            var vid = document.getElementById("PlayVideo");
+            function SetStart() {
+                if (vid.currentTime >= '{{ end }}') {
+                    vid.load();
+                    vid.currentTime = '{{ start }}';
+                    vid.play();
+                }
+            }
+        </script>
     </div>
 
 </body>
-
-
-
-</html>
-
 </html>

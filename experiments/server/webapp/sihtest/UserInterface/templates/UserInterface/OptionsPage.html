@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> {% load static %}
 <html>
 <title>Option</title>
 
@@ -10,15 +10,15 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 
-<body style="background: url(image.jpg); background-size: cover;">
-    <img src="isro.png" style="position:absolute; right:0 ; top:0; width:100px; height:100px;">
-    <img src="l5.png" style="position:absolute; width:100px; height:100px;">
+<body style="background-image: url(image.jpg); background-size: cover;">
+    <img src="{% static 'OptionsForm/isro.png' %}" style="position:absolute; right:0 ; top:0; width:100px; height:100px;">
+    <img src="{% static 'OptionsForm/l5.png' %}" style="position:absolute; width:100px; height:100px;">
     <div style="padding: 100px 100px;" class="container-fluid">
         <form action="Options" method="post">
             {% csrf_token %}
             <div class="row">
                 <div class="col-sm-5">
-                    <h3 style="color:#ffffff">From
+                    <h3>From
                         <span style="color: #ff161a">*</span>
                     </h3>
                     <div class="col-sm-7">
@@ -31,11 +31,11 @@
                 </div>
                 <div class="col-sm-1"></div>
                 <div class="col-sm-5">
-                    <h3 style="color:#ffffff">To
+                    <h3>To
                         <span style="color: #ff161a">*</span>
                     </h3>
                     <div class="col-sm-7">
-                        <input class="form-control" type="date" name="date" required>
+                        <input class="form-control" type="date" name="{{ form.ToDate.name }}" required>
                     </div>
                     <div class="col-sm-5">
                         <p id="ToTime">
@@ -47,11 +47,11 @@
             <br>
             <div class="row">
                 <div class="col-sm-5">
-                    <h3 style="color: #ffffff;">Resolution
+                    <h3>Resolution
                         <span style="color: #ff161a">*</span>
                     </h3>
                     <div class="col-sm-8">
-                        <select class="form-control" id="Resolution" style="height: 40px;" required >
+                        <select name="{{ form.Resolution.name }}" class="form-control" id="Resolution" style="height: 40px;" required>
                             <option value="" style="color: #161615;" selected>Resolution</option>
                             <option value="360">360</option>
                             <option value="720">720</option>
@@ -62,11 +62,11 @@
                 </div>
                 <div class="col-sm-1"></div>
                 <div class="col-sm-5">
-                    <h3 style="color:#ffffff">Image per Second
+                    <h3>Image per Second
                         <span style="color: #ff161a">*</span>
                     </h3>
                     <div class="col-sm-8">
-                        <select class="form-control" style="height: 40px;"required>
+                        <select name="{{ form.FPS.name }}" class="form-control" style="height: 40px;" required>
                             <option value="" style="color: #161615;" selected>Images per second</option>
                             <option value="0.5">0.5</option>
                             <option value="1">1</option>
@@ -84,14 +84,21 @@
                 <input class="btn btn-default" style="height: 40px;
                 width: 100px;
                 background-color: #008000;
-                color: #ffffff;" type="submit" value="Proceed">
+                color: #ffffff;" type="submit" value="Proceed" onsubmit="hide()">
             </div>
-        </form>
+        <div id="video" style="display: none;">
+            <video id="PlayVideo" height="40%" width="50%" autoplay controls>
+                <!--source src="{{videopath}}#t={{ start }},{{ end }}"></source-->
+                <source src="{{videopath}}#t=10,20"></source>
+            </video>
+        </div>
+        
+    </form>
     </div>
 
     <script>
         function setTime(NAME) {
-            var select = '<select name=' + NAME + ' class="form-control" required>';
+            var select = '<select name="' + NAME + '" class="form-control" required>';
             for (var hour = 00; hour < 24; hour++) {
                 select += '<option>' + hour + ':00 </option>';
                 select += '<option>' + hour + ':30 </option>';
@@ -100,24 +107,31 @@
             return select;
         }
         document.getElementById("FromTime").innerHTML = setTime('{{ form.FromTime.name }}');
-        document.getElementById("ToTime").innerHTML = setTime('{{ form.ToDate.name }}');
+        document.getElementById("ToTime").innerHTML = setTime('{{ form.ToTime.name }}');
 
-        function getCookie(name) {
-    var cookieValue = null;
-    if (document.cookie && document.cookie !== '') {
-        var cookies = document.cookie.split(';');
-        for (var i = 0; i < cookies.length; i++) {
-            var cookie = jQuery.trim(cookies[i]);
-            // Does this cookie string begin with the name we want?
-            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
+        function hide() {
+            var x = document.getElementById("video");
+            if (x.style.display == 'none') {
+                x.style.display = 'block';
             }
         }
-    }
-    return cookieValue;
-}
-var csrftoken = getCookie('csrftoken');
+
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = jQuery.trim(cookies[i]);
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        var csrftoken = getCookie('csrftoken');
     </script>
 
 </body>
