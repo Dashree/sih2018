@@ -1,20 +1,41 @@
-
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <!--link rel="stylesheet" href="style.css"-->
-    <link rel='stylesheet' type='text/css' href='http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css' />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<!--link rel="stylesheet" href="style.css"-->
+<link rel='stylesheet' type='text/css' href='http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css' />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 <form action="Options" method="post">
-    {% csrf_token %}
-    {{ form }}
-    {% if messages %}
+    {% csrf_token %} {{ form }} {% if messages %}
     <ul class="messages">
         {% for message in messages %}
         <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
             {% endfor %}
     </ul>
-    {% endif %} 
+    {% endif %}
     <!--input type="date" name="{{form.FromDate.name}}" required-->
-    <input type="submit" value="Proceed" />
+    <input type="submit" value="Proceed" onsubmit="show()" />
+
+<div id="video" style="display: none;">
+    <video id="PlayVideo" height="40%" width="50%" autoplay controls>
+        <!--source src="{{videopath}}#t={{ start }},{{ end }}"></source-->
+        <source src="{{videopath}}#t=10,20"></source>
+    </video>
+    <button onclick="SetStart()" type="button">Replay</button>
+</div>
 </form>
+<script>
+    var vid = document.getElementById("PlayVideo");
+    function SetStart() {
+        if (vid.currentTime >= '20') {
+            vid.load();
+            vid.currentTime = '10';
+            vid.play();
+        }
+    }
+    function show() {
+            var x = document.getElementById("video");
+            if (x.style.display == 'none') {
+                x.style.display = 'block';
+            }
+        }
+</script>
