@@ -2,7 +2,7 @@ from watchdog.observers import Observer
 from watchdog.events import PatternMatchingEventHandler
 
 from django.core.management.base import BaseCommand
-from GrazerISR4.models import imageDir
+from GrazerISR4.models import ImageDir
 
 from .videoProcessing import VideoProcessing
 
