@@ -14,13 +14,12 @@ class VideoProcessing():
         imageName = os.path.basename(self.imageSrc)
         list = imageName.split("_")
         self.dateStr = str(list[1]);
-        conv = datetime.strptime(self.dateStr, '%d%b%Y')
-        self.date = conv.date().strftime('%d-%m-%Y')
-        return self.date
+        self.imgDate = datetime.strptime(self.dateStr, '%d%b%Y').date()
+        return self.imgDate
     
     def copyImage(self):
         self.getDate()
-        self.dateImagePath = 'media/' + self.date + '/images'
+        self.dateImagePath = 'media/' + str(self.imgDate) + '/images'
         print(self.dateImagePath)
         self.destImagePath = os.path.join(settings.BASE_DIR, os.path.join(self.dateImagePath, os.path.basename(self.imageSrc)))
         directory = os.path.dirname(self.destImagePath)
@@ -41,7 +40,7 @@ class VideoProcessing():
     def demuxerInput(self):
          for res in range(len(self.width)):
             for d in range(len(self.duration)):
-                if(os.path.exists(os.path.join(settings.BASE_DIR,'media/%s/videos/'%self.date,os.path.join('video_%d_%d.webm'%(self.height[res],self.duration[d]))))):
+                if(os.path.exists(os.path.join(settings.BASE_DIR,'media/%s/videos/'%str(self.imgDate),os.path.join('video_%d_%d.webm'%(self.height[res],self.duration[d]))))):
                    print(self.videoPath('video_%d_%d.webm'%(self.height[res],self.duration[d]))) 
                    with open('concat_%d_%d.txt'%(res,d),'w') as f:
                        f.write('file %s'%self.videoPath('video_%d_%d.webm'%(self.height[res],self.duration[d])))
@@ -61,12 +60,12 @@ class VideoProcessing():
                '-flags', 'global_header',
                'video1.webm']
         subprocess.run(command)
-        os.remove(os.path.join(settings.BASE_DIR, os.path.join('media/' + self.date + '/videos', 'video_%d_%d.webm'%(self.height[res],self.duration[d]))))
+        os.remove(os.path.join(settings.BASE_DIR, os.path.join('media/' + str(self.imgDate) + '/videos', 'video_%d_%d.webm'%(self.height[res],self.duration[d]))))
         os.rename('video1.webm', 'video_%d_%d.webm'%(self.height[res],self.duration[d]))
         self.copyVideo('video_%d_%d.webm'%(self.height[res],self.duration[d]))
     
     def videoPath(self,videoName):
-        self.dateVideoPath = 'media/' + self.date + '/videos'
+        self.dateVideoPath = 'media/' + str(self.imgDate) + '/videos'
         self.destVideoPath = os.path.join(settings.BASE_DIR, os.path.join(self.dateVideoPath, videoName))
         return self.destVideoPath
     
