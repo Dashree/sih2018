@@ -1,11 +1,12 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import User
 import os
 from datetime import date
 # Create your models here.
 
-class User(AbstractUser):
-    port = models.IntegerField(max_length = 100, null = False, unique  = True)
+class Profile(models.Model):
+    user = models.ForeignKey(User, on_delete = models.CASCADE)
+    port = models.IntegerField(unique = True)   
     
 class videoDir(models.Model):
     resfield = models.IntegerField(null = False)
