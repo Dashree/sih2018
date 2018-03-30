@@ -1,16 +1,30 @@
+{ % load static % }
+{ % csrf token % }
 <html>
     <head>
         <title>Select Options</title>
         <meta charset="UTF-8">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <link rel='stylesheet' type='text/css' href='http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css' />
+        <script src="{ % static 'GrazerFeed/script.js' % }"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     </head>
     <body>
         <div class="container-fluid" style="padding: 100px 100px;">
-            <form>
-                
+            { % if messages % }
+            <p> {{ message }} </p>
+            { % endif % }
+            <form action="options" method="post">
+                <div class="row">
+                    <div class="col-sm-5">
+                        <h3>From<span style="color: #ff161a">*</span></h3>
+                        <div class="col-sm-7">
+                            <input type="date" class="form-control" name="{{ from.FromDate.name }}">
+                        </div>
+                    </div>
+
+                </div>
             </form>           
         </div>
     </body>
