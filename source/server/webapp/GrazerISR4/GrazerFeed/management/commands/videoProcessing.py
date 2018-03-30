@@ -1,4 +1,5 @@
 import os, shutil, subprocess
+import os.path
 from datetime import datetime
 
 from django.conf import settings
@@ -6,8 +7,8 @@ import moviepy.editor as moviepy
 
 from PIL import Image
 
-class VideoProcessing():
-    def __init__(self, imageSrc):
+class VideoProcessing(object):
+    def __init__(self, imageSrc = None):
         self.imageSrc = imageSrc
         self.width = [640, 1280, 1920, 2560]
         self.height = [360, 720, 1080, 1440]
@@ -17,13 +18,21 @@ class VideoProcessing():
     def getDate(self):
         imageName = os.path.basename(self.imageSrc)
         list = imageName.split("_")
-        self.dateStr = str(list[1]);
+        self.dateStr = str(list[1])
         self.imgDate = datetime.strptime(self.dateStr, '%d%b%Y').date()
         return self.imgDate
     
+    def getTime(self):
+        imageName = os.path.basename(self.imageSrc)
+        list = imageName.split("_")
+        self.dateStr = str(list[1]);
+        self.imgTime = datetime.strptime(self.dateStr, '%d%b%Y').time()
+        return self.imgTime
+    
+    
     def copyImage(self):
         self.getDate()
-        self.dateImagePath = 'media/' + str(self.imgDate) + '/images'
+        self.dateImagePath = os.path.join('media', str(self.imgDate), 'images')
         print(self.dateImagePath)
         self.destImagePath = os.path.join(settings.BASE_DIR, os.path.join(self.dateImagePath, os.path.basename(self.imageSrc)))
         directory = os.path.dirname(self.destImagePath)
@@ -33,23 +42,50 @@ class VideoProcessing():
     
     def createVideo(self):
         self.copyImage()
-        img = Image.open(self.imageSrc)
-        width1, height1 = img.size
-        
-        for res in range(len(self.width)):
-            for d in range(len(self.duration)):
-                clip = moviepy.ImageClip(self.imageSrc, duration=self.duration[d])
-                if (width1 <= 360 or height1 <=360):
-                    clip.write_videofile('singleVideo_%d_%d.webm'%(self.height[res],self.duration[d]), fps=11, codec='libvpx-vp9', ffmpeg_params=['-lossless','1'])
-                    self.imgQ = 1
-                else:
-                    clip.resize(newsize=(self.width[res],self.height[res])).write_videofile('singleVideo_%d_%d.webm'%(self.height[res],self.duration[d]), fps=11, codec='libvpx-vp9', ffmpeg_params=['-lossless','1'])
+        if(self.imageSrc is not None):
+            img = Image.open(self.imageSrc)
+            width1, height1 = img.size
+            
+            for res in range(len(self.width)):
+                for d in range(len(self.duration)):
+                    clip = moviepy.ImageClip(self.imageSrc, duration=self.duration[d])
+                    if (width1 <= 360 or height1 <=360):
+                        clip.write_videofile('singleVideo_%d_%d.webm'%(self.height[res],self.duration[d]), fps=11, codec='libvpx-vp9', ffmpeg_params=['-lossless','1'])
+                        self.imgQ = 1
+                    else:
+                        clip.resize(newsize=(self.width[res],self.height[res])).write_videofile('singleVideo_%d_%d.webm'%(self.height[res],self.duration[d]), fps=11, codec='libvpx-vp9', ffmpeg_params=['-lossless','1'])
     
     def getImagePath(self):
         return self.destImagePath
 
     def getVideosPath(self):
         return os.path.join(settings.BASE_DIR, self.dateVideoPath)
+
+    def multipleCopyVideo(self,videoNames):
+        self.destVideoPath1 = os.path.join(settings.BASE_DIR, os.path.join('media/output/', videoNames))
+        directory = os.path.dirname(self.destVideoPath1)
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+        shutil.move(videoNames, self.destVideoPath1)
+    
+    def concat(self, file, res, d): 
+        command = ['ffmpeg','-y',
+               '-f', 'concat',
+               '-safe', '0',
+               '-i', file,
+               '-c', 'copy',
+               '-flags', 'global_header',
+               'video1.webm']
+        subprocess.run(command)
+        if(file == 'nconcat.txt'):
+            os.rename('video1.webm', 'outputvideo_%d_%d.webm'%(res,d))
+            self.multipleCopyVideo('outputvideo_%d_%d.webm'%(res,d)) 
+            os.remove('nconcat.txt')
+        else:
+            os.remove(os.path.join(settings.BASE_DIR, os.path.join('media/' + str(self.imgDate) + '/videos', 'video_%d_%d.webm'%(self.height[res],self.duration[d]))))
+            os.rename('video1.webm', 'video_%d_%d.webm'%(self.height[res],self.duration[d]))
+            self.copyVideo('video_%d_%d.webm'%(self.height[res],self.duration[d]))
+    
     
     def demuxerInput(self):
          for res in range(len(self.width)):
@@ -68,35 +104,10 @@ class VideoProcessing():
     def multipleDemuxInput(self, nVideo,res,d):
         with open('nconcat.txt','a') as f:
             for n in range(len(nVideo)):
-                f.write("file '%s'"%nVideo[n]+"\n") #append base path
+                print(nVideo[n])
+                f.write("file %s"%os.path.join(settings.BASE_DIR,nVideo[n])+"\n") #append base path
         self.concat('nconcat.txt',res,d)#here res and d is user input
-        
-    
-    def multipleCopyVideo(self,videoNames):
-        self.destVideoPath1 = os.path.join(settings.BASE_DIR, os.path.join('media/output/', videoNames))
-        directory = os.path.dirname(self.destVideoPath1)
-        if not os.path.exists(directory):
-            os.makedirs(directory)
-        shutil.move(videoNames, self.destVideoPath1)
-    
-    def concat(self, file, res, d): 
-        command = ['ffmpeg','-y',
-               '-f', 'concat',
-               '-safe', '0',
-               '-i', file,
-               '-c', 'copy',
-               '-flags', 'global_header',
-               'video1.webm']
-        subprocess.run(command)
-        if(file == 'nconcat.txt'):
-            os.rename('video1.webm', 'outputvideo_%d_%d.webm'%(self.height[res],self.duration[d]))
-            self.multipleCopyVideo('outputvideo_%d_%d.webm'%(self.height[res],self.duration[d])) 
-            os.remove('nconcat.txt')
-        else:
-            os.remove(os.path.join(settings.BASE_DIR, os.path.join('media/' + str(self.imgDate) + '/videos', 'video_%d_%d.webm'%(self.height[res],self.duration[d]))))
-            os.rename('video1.webm', 'video_%d_%d.webm'%(self.height[res],self.duration[d]))
-            self.copyVideo('video_%d_%d.webm'%(self.height[res],self.duration[d]))
-    
+            
     def videoPath(self,videoName):
         self.dateVideoPath = 'media/' + str(self.imgDate) + '/videos'
         self.destVideoPath = os.path.join(settings.BASE_DIR, os.path.join(self.dateVideoPath, videoName))
@@ -107,4 +118,5 @@ class VideoProcessing():
             os.makedirs(os.path.join(settings.BASE_DIR,self.dateVideoPath))
         shutil.move(videoName, self.destVideoPath)
 
-        
+
+
