@@ -11,11 +11,25 @@
 </head>
 
 <body style="background-image: url(../../static/OptionsPage/bg-image.jpg); background-size: cover;">
-    <img src="{% static 'OptionsPage/ISRO-Logo.png' %}" style="position:absolute; right:0 ; top:0; width:100px; height:100px;">
-    <img src="{% static 'OptionsPage/Team-Logo.png' %}" style="position:absolute; width:100px; height:100px;">
+    <div class="row container-fluid">
+        <div class="col-sm-1">
+            <img src="{% static 'OptionsPage/Team-Logo.png' %}" style="position:absolute; right:0 ; top:0; width:100px; height:100px;">
+        </div>
+        <div class="col-sm-10">
+            <a href="Login" method="get" style="color: #ffffff; font-size: 20px; position: absolute; right: 0; top: 0;">Log Out</a>
+        </div>
+        <div class="col-sm-1">
+            <img src="{% static 'OptionsPage/ISRO-Logo.png' %}" style="position:absolute; width:100px; height:100px;">
+        </div>
+    </div>
     <div style="padding: 100px 100px;" class="container-fluid">
         <form action="Options" method="post">
             {% csrf_token %}
+            <div class="col-sm-2"></div>
+            <input type="radio" name="Input" id="daywise" onclick="hide();" required>
+            <label for="daywise" style="color: #ffff99; font-size: 19px;"> See continuous day-wise video &nbsp;</label>
+            <input type="radio" name="Input" id="timewise" onclick="hide();">
+            <label for="timewise" style="color: #ffff99; font-size: 19px;"> Images at a time over a period of days</label>
             <div class="row">
                 <div class="col-sm-5">
                     <h3 style="color: #ffffff;">From
@@ -39,6 +53,19 @@
                     </div>
                     <div class="col-sm-5">
                         <p id="ToTime">
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <br>
+            <div class="row" style="display: none;" id="showdiv">
+                <div class="col-sm-5">
+                    <h3 style="color: #ffffff;">Time
+                        <span style="color: #ff161a">*</span>
+                    </h3>
+                    <div class="col-sm-5">
+                        <p id="Time">
                         </p>
                     </div>
                 </div>
@@ -86,17 +113,23 @@
                 background-color: #008000;
                 color: #ffffff;" type="submit" value="Proceed" onsubmit="hide()">
             </div>
-        <div id="video" style="display: none;">
-            <video id="PlayVideo" height="40%" width="50%" autoplay controls>
-                <!--source src="{{videopath}}#t={{ start }},{{ end }}"></source-->
-                <source src="{{videopath}}#t=10,20"></source>
-            </video>
-        </div>
-        
-    </form>
+        </form>
     </div>
 
     <script>
+        function hide() {
+            var in_1 = document.getElementById("daywise");
+            if (in_1.checked == false) {
+                document.getElementById("FromTime").style.display = 'none';
+                document.getElementById("ToTime").style.display = 'none';
+                document.getElementById("showdiv").style.display = 'block';
+            }
+            else {
+                document.getElementById("FromTime").style.display = 'block';
+                document.getElementById("ToTime").style.display = 'block';
+                document.getElementById("showdiv").style.display = 'none';
+            }
+        }
         function setTime(NAME) {
             var select = '<select name="' + NAME + '" class="form-control" required>';
             for (var hour = 00; hour < 24; hour++) {
@@ -108,13 +141,7 @@
         }
         document.getElementById("FromTime").innerHTML = setTime('{{ form.fromtime.name }}');
         document.getElementById("ToTime").innerHTML = setTime('{{ form.totime.name }}');
-
-        function hide() {
-            var x = document.getElementById("video");
-            if (x.style.display == 'none') {
-                x.style.display = 'block';
-            }
-        }
+        document.getElementById("Time").innerHTML = setTime('{{ form.fromtime.name }}');
 
         function getCookie(name) {
             var cookieValue = null;
