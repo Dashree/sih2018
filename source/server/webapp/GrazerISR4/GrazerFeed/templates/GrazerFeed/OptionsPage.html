@@ -1,32 +1,139 @@
-<!DOCTYPE html>
-{ % load static % }
-{ % csrf token % }
+<!DOCTYPE html> {% load static %}
 <html>
-    <head>
-        <title>Select Options</title>
-        <meta charset="UTF-8">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-        <link rel='stylesheet' type='text/css' href='http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css' />
-        <script src="{ % static 'GrazerFeed/script.js' % }"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    </head>
-    <body>
-        <div class="container-fluid" style="padding: 100px 100px;">
-            { % if messages % }
-            <p> {{ message }} </p>
-            { % endif % }
-            <form action="options" method="post">
-                <div class="row">
-                    <div class="col-sm-5">
-                        <h3>From<span style="color: #ff161a">*</span></h3>
-                        <div class="col-sm-7">
-                            <input type="date" class="form-control" name="{{ from.FromDate.name }}">
-                        </div>
-                    </div>
+<title>Option</title>
 
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel='stylesheet' type='text/css' href='http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css' />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+
+<body style="background-image: url(../../static/OptionsPage/bg-image.jpg); background-size: cover;">
+    <img src="{% static 'OptionsPage/ISRO-Logo.png' %}" style="position:absolute; right:0 ; top:0; width:100px; height:100px;">
+    <img src="{% static 'OptionsPage/Team-Logo.png' %}" style="position:absolute; width:100px; height:100px;">
+    <div style="padding: 100px 100px;" class="container-fluid">
+        <form action="Options" method="post">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-sm-5">
+                    <h3 style="color: #ffffff;">From
+                        <span style="color: #ff161a">*</span>
+                    </h3>
+                    <div class="col-sm-7">
+                        <input style="height:40px;" class="form-control" type="date" name="{{ form.fromdate.name }}" required>
+                    </div>
+                    <div class="col-sm-5">
+                        <p id="FromTime">
+                        </p>
+                    </div>
                 </div>
-            </form>           
+                <div class="col-sm-1"></div>
+                <div class="col-sm-5">
+                    <h3 style="color: #ffffff;">To
+                        <span style="color: #ff161a">*</span>
+                    </h3>
+                    <div class="col-sm-7">
+                        <input class="form-control" type="date" name="{{ form.todate.name }}" required>
+                    </div>
+                    <div class="col-sm-5">
+                        <p id="ToTime">
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <br>
+            <div class="row">
+                <div class="col-sm-5">
+                    <h3 style="color: #ffffff;">Resolution
+                        <span style="color: #ff161a">*</span>
+                    </h3>
+                    <div class="col-sm-8">
+                        <select name="{{ form.res.name }}" class="form-control" id="Resolution" style="height: 40px;" required>
+                            <option value="" style="color: #161615;" selected>Resolution</option>
+                            <option value="360">360</option>
+                            <option value="720">720</option>
+                            <option value="1080">1080</option>
+                            <option value="1440">1440</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-1"></div>
+                <div class="col-sm-5">
+                    <h3 style="color: #ffffff;">Image per Second
+                        <span style="color: #ff161a">*</span>
+                    </h3>
+                    <div class="col-sm-8">
+                        <select name="{{ form.fps.name }}" class="form-control" style="height: 40px;" required>
+                            <option value="" style="color: #161615;" selected>Images per second</option>
+                            <option value="0.5">0.5</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="2.5">2.5</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <br>
+            <br>
+            <br>
+            <div class="col-sm-11 text-center">
+                <input class="btn btn-default" style="height: 40px;
+                width: 100px;
+                background-color: #008000;
+                color: #ffffff;" type="submit" value="Proceed" onsubmit="hide()">
+            </div>
+        <div id="video" style="display: none;">
+            <video id="PlayVideo" height="40%" width="50%" autoplay controls>
+                <!--source src="{{videopath}}#t={{ start }},{{ end }}"></source-->
+                <source src="{{videopath}}#t=10,20"></source>
+            </video>
         </div>
-    </body>
+        
+    </form>
+    </div>
+
+    <script>
+        function setTime(NAME) {
+            var select = '<select name="' + NAME + '" class="form-control" required>';
+            for (var hour = 00; hour < 24; hour++) {
+                select += '<option>' + hour + ':00 </option>';
+                select += '<option>' + hour + ':30 </option>';
+            }
+            select += '</select>';
+            return select;
+        }
+        document.getElementById("FromTime").innerHTML = setTime('{{ form.fromtime.name }}');
+        document.getElementById("ToTime").innerHTML = setTime('{{ form.totime.name }}');
+
+        function hide() {
+            var x = document.getElementById("video");
+            if (x.style.display == 'none') {
+                x.style.display = 'block';
+            }
+        }
+
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = jQuery.trim(cookies[i]);
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        var csrftoken = getCookie('csrftoken');
+    </script>
+
+</body>
+
 </html>
