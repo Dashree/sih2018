@@ -110,9 +110,9 @@ class Demuxer(object):
     def multipleDemuxInput(self):
         with open('nconcat.txt','w') as f:
             for videoname in self.nVideo:
-                f.write("file %s"%os.path.join(settings.BASE_DIR,videoname,"\n")) #append base path
+                f.write("file %s"%os.path.join(settings.BASE_DIR,videoname,"\n")) 
         self.vConcat('nconcat.txt')
-
+    
     def multipleCopyVideo(self,videoNames):
         self.destVideoPath1 = os.path.join(settings.BASE_DIR, "media", "output", videoNames)
         directory = os.path.dirname(self.destVideoPath1)
@@ -120,7 +120,7 @@ class Demuxer(object):
             os.makedirs(directory)
         shutil.move(videoNames, self.destVideoPath1)
 
-    def vConcat(self, file, res, d):
+    def vConcat(self, file):
         command = ['ffmpeg','-y',
                '-f', 'concat',
                '-safe', '0',
