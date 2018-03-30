@@ -3,7 +3,7 @@ import shutil
 import os, sys, glob
 import time
 
-path = "/mnt/c/Hackathon/Hackathon_Images"
+path = "/mnt/c/Hackathon_Images"
 source = os.listdir(path)
 destination = "/mnt/c/images"
 for files in source:
