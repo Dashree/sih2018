@@ -7,6 +7,7 @@ from django.contrib.auth import authenticate, login
 from django.conf import settings
 from .calculate import calculate
 from .management.commands.videoProcessing import VideoProcessing
+from .models import VideoUpload
 
 def index(request):
     return HttpResponse("Hello, world. You're at the GrazerFeed index.")
@@ -17,25 +18,16 @@ def option(request):
         if form.is_valid():
             from_time = form.cleaned_data['fromtime']
             to_time = form.cleaned_data['totime']
-            list_date = form.check_date()
-            from_date = list_date[0]
-            to_date = list_date[1]
+            from_date = form.cleaned_data['fromdate']
+            to_date = form.cleaned_data['todate']
             Res = form.cleaned_data['res']
             Fps = form.cleaned_data['fps']
-            day = from_date - to_date
-            hour1 = str(from_time).split(':')[0]
-            min1 = str(from_time).split(':')[1]
-            hour2 = str(to_time).split(':')[0]
-            min2 = str(to_time).split(':')[1]
+            day = to_date - from_date
             pathlist = []
-            for x in range(int(day.days)):
-                extractdate = VideoUpload.objects.get(uploadDate = from_date)
-                print(extractdate)
-                pathlist.append(extractdate.uploadPath)
-            sec = calculate(int(day.days), int(hour1), int(min1), int(hour2), int(min2), int(Fps))
+            pathlist = VideoUpload.objects.filter(uploadDate__range=[from_date, to_date])
+            sec = calculate(day.days, from_time.hour, from_time.minute, to_time.hour, to_time.minute, Fps)
             #videopath = settings.MEDIA_URL + str(from_date) + '/videos/video_' + str(Res) + '_' + str(Fps) + '.webm'
             videopath = VideoProcessing()
-            #videopath.multipleDemuxInput(pathlist, Res, Fps)
             return render(request, 'GrazerFeed/VideoPage.html', context={'videopath' :  videopath.multipleDemuxInput(pathlist, Res, Fps), 'start' : sec[0], 'end' : sec[1]})
         else:
             print('form is not valid')
