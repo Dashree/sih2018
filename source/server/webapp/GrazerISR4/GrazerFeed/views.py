@@ -6,6 +6,7 @@ from .forms import OptionsPage, LoginPage
 from django.contrib.auth import authenticate, login
 from django.conf import settings
 from .calculate import calculate
+from .management.commands.videoProcessing import multipleDemuxInput
 
 def index(request):
     return HttpResponse("Hello, world. You're at the GrazerFeed index.")
@@ -26,8 +27,14 @@ def option(request):
             min1 = str(from_time).split(':')[1]
             hour2 = str(to_time).split(':')[0]
             min2 = str(to_time).split(':')[1]
+            pathlist = []
+            for x in range(int(day.days)):
+                extractdate = VideoUpload.objects.get(uploadDate = from_date)
+                print(extractdate)
+                pathlist.append(extractdate.uploadPath)
             sec = calculate(int(day.days), int(hour1), int(min1), int(hour2), int(min2), int(Fps))
-            videopath = settings.MEDIA_URL + str(from_date) + '/videos/video_' + str(Res) + '_' + str(Fps) + '.webm'
+            #videopath = settings.MEDIA_URL + str(from_date) + '/videos/video_' + str(Res) + '_' + str(Fps) + '.webm'
+            videopath = multipleDemuxInput(pathlist, Res, Fps)
             return render(request, 'GrazerFeed/VideoPage.html', context={'videopath' : videopath, 'start' : sec[0], 'end' : sec[1]})
         else:
             print('form is not valid')
