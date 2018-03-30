@@ -2,7 +2,7 @@ import os, shutil
 from datetime import datetime
 from django.conf import settings
 
-class videoProcessing():
+class VideoProcessing():
     def __init__(self, imageSrc):
         self.imageSrc = imageSrc
         self.width = [640, 1280, 1920, 2560]
