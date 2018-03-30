@@ -8,12 +8,13 @@ class Profile(models.Model):
     user = models.ForeignKey(User, on_delete = models.CASCADE)
     port = models.IntegerField(unique = True)   
     
-class videoDir(models.Model):
+class videoUpload(models.Model):
     resfield = models.IntegerField(null = False)
     fpsfield = models.IntegerField(null = False)
     uploadPath = models.TextField()
-    uploadDate = models.DateField()
+    uploadDate = models.DateField(null = False, blank=False)
     
-class ImageDir(models.Model):
+class ImageUpload(models.Model):
     upload = models.TextField()
-    date = models.DateField()
+    imgDate = models.DateField(null=False, blank=False)
+
