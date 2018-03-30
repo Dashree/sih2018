@@ -2,7 +2,7 @@ from watchdog.observers import Observer
 from watchdog.events import PatternMatchingEventHandler
 
 from django.core.management.base import BaseCommand
-from GrazerISR4.models import ImageDir
+from GrazerFeed.models import ImageUpload
 
 from .videoProcessing import VideoProcessing
 
@@ -14,7 +14,7 @@ class Handler(PatternMatchingEventHandler):
     def on_created(self,event):
         videoP = VideoProcessing(event.src_path)
         videoP.createVideo()
-        newimage = imageDir(upload = videoP.getImagePath(), date = videoP.getDate())
+        newimage = ImageUpload(upload = videoP.getImagePath(), imgDate = videoP.getDate())
         newimage.save()
         videoP.demuxerInput()
         
