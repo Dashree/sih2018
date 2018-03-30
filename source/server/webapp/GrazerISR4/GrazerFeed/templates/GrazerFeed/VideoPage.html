@@ -12,33 +12,101 @@
 </head>
 
 <body>
-    <img src="{% static 'OptionsPage/ISRO-Logo.png' %}" style="position:absolute; right:0 ; top:0; width:100px; height:100px;">
-    <img src="{% static 'OptionsPage/Team-Logo.png' %}" style="position:absolute; top:0;width:120px; height:120px; border-radius:50%;">
-    <div class="container-fluid" style="padding: 100px 400px;">
-        <form action="Options" method="GET">
-            <div align="right">
-                <button class="btn btn-default" style="color:#ffffff; background:#008000">
-                    <i class="fa fa-cog"></i> Reset Settings</button>
+    <div class="row">
+        <img src="{% static 'OptionsPage/ISRO-Logo.png' %}" style="position:absolute; right:0 ; top:0; width:100px; height:100px;">
+        <img src="{% static 'OptionsPage/Team-Logo.png' %}" style="position:absolute; top:0;width:120px; height:120px; border-radius:50%;">
+    </div>
+    <div class="row">
+        <div class="col-sm-1"></div>
+        <div class="col-sm-10 container-fluid text-center" id="video-container" style="padding: 50px;">
+
+            <video id="PlayVideo" height="100%" width="100%" autoplay controls>
+                <source src="{{videopath}}#t={{start}},{{end}}"></source>
+            </video>
+            <div id="video-controls">
+                <button type="button" class="form-control" style="color:#ffffff; background:#008000;" onclick="play()">
+                    <i class="fa fa-play"></i>
+                </button>
+                <button type="button" class="form-control" style="color:#ffffff; background:#008000;" onclick="pause()">
+                    <i class="fa fa-pause"></i>
+                </button>
+                <button type="button" id="full-screen" class="form-control" style="color:#ffffff; background:#008000;" onclick="fullScreen()">Full-Screen</button>
             </div>
-        </form>
-        <video id="PlayVideo" height="100%" width="100%" autoplay controls>
-            <source src="{{videopath}}#t={{start}},{{end}}"></source>
-        </video>
+            <!--br>
         <br>
         <br>
+        <button onclick="play()" type="button" class="btn btn-defaults" style="color:#ffffff; background:#008000;">
+            <i class="fa fa-play"></i>
+        </button>&nbsp; &nbsp;
+        <button onclick="pause()" type="button" class="btn btn-default" style="color: #ffffff; background: #008000">
+            <i class="fa fa-pause"></i>
+        </button>
         <br>
-        <button onclick="Replay()" type="button"> Replay </button>
-        <script>
-            var video = document.getElementById("PlayVideo");
-            function Replay() {
-                if (video.currentTime >= "{{ end }}") {
-                    video.load();
-                    video.currentTime = "{{ start }}";
-                    video.play();
+        <br>
+        <form action="Options" method="GET">
+            <button class="btn btn-default" style="color:#ffffff; background:#008000;">
+                <i class="fa fa-cog"></i> Reset Settings</button>
+        </form-->
+        </div>
+    </div>
+    <script>
+        var video = document.getElementById("PlayVideo");
+        function play() {
+            if (video.currentTime >= "{{ end }}") {
+                video.load();
+                video.currentTime = "{{ start }}";
+                video.play();
+            }
+            else {
+                video.play();
+            }
+        }
+        function pause() {
+            video.pause();
+        }
+        $(window).keypress(function (e) {
+            if (e.which == 32) {
+                if (video.paused == true) {
+                    if (video.currentTime >= "{{ end }}") {
+                        video.load();
+                        video.currentTime = "{{ start }}";
+                        video.play();
+                    }
+                    else {
+                        video.play();
+                    }
+                }
+                else
+                    video.pause();
+            }
+        });
+        function fullScreen() {
+            var elem = document.getElementById("PlayVideo");
+            elem = elem || document.documentElement;
+            if (!document.fullscreenElement && !document.mozFullScreenElement &&
+                !document.webkitFullscreenElement && !document.msFullscreenElement) {
+                if (elem.requestFullscreen) {
+                    elem.requestFullscreen();
+                } else if (elem.msRequestFullscreen) {
+                    elem.msRequestFullscreen();
+                } else if (elem.mozRequestFullScreen) {
+                    elem.mozRequestFullScreen();
+                } else if (elem.webkitRequestFullscreen) {
+                    elem.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+                }
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.msExitFullscreen) {
+                    document.msExitFullscreen();
+                } else if (document.mozCancelFullScreen) {
+                    document.mozCancelFullScreen();
+                } else if (document.webkitExitFullscreen) {
+                    document.webkitExitFullscreen();
                 }
             }
-        </script>
-    </div>
+        }
+    </script>
 </body>
 
 </html>
