@@ -13,6 +13,7 @@ class Handler(PatternMatchingEventHandler):
     def on_created(self,event):
         videoP = VideoProcessing(event.src_path)
         videoP.createVideo()
+        videoP.demuxerInput()
 
 
 
