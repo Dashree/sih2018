@@ -1,0 +1,42 @@
+<!DOCTYPE html> {% load static %}
+<html lang="en">
+<head>
+    <title>Animation</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel='stylesheet' type='text/css' href='http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css' />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <img src="{% static 'OptionsPage/ISRO-Logo.png' %}" style="position:absolute; right:0 ; top:0; width:100px; height:100px;">
+    <img src="{% static 'OptionsPage/ISRO-Logo.png' %}" style="position:absolute; top:0;width:120px; height:120px; border-radius:50%;">
+    <div class="container-fluid" style="padding: 200px 200px;">
+        <form action="Options" method="GET">
+            <div align="right">
+                <button class="btn btn-default" style="color:#ffffffff; background:#008000">
+                    <i class="fa fa-cog"></i> Reset Settings</button>
+            </div>
+        </form>
+        <video id="PlayVideo" height="60%" width="60%" autoplay controls>
+            <source src="{{videopath}}#t={{start}},{{end}}"></source>
+        </video>
+        <br>
+        <br>
+        <br>
+        <button onclick="Replay()" type="button"> Replay </button>
+        <script>
+            var video = document.getElementById("PlayVideo");
+            function Replay() {
+                if (video.currentTime >= "{{ end }}") {
+                    video.load();
+                    video.currentTime = "{{ start }}";
+                    video.play();
+                }
+            }
+        </script>
+    </div>
+</body>
+
+</html>
