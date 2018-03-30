@@ -1,7 +1,10 @@
 import os, shutil, subprocess
 from datetime import datetime
+
 from django.conf import settings
 import moviepy.editor as moviepy
+
+from PIL import Image
 
 class VideoProcessing():
     def __init__(self, imageSrc):
@@ -9,6 +12,7 @@ class VideoProcessing():
         self.width = [640, 1280, 1920, 2560]
         self.height = [360, 720, 1080, 1440]
         self.duration = [0.5, 1, 2, 3]
+        self.imgQ = 0
 
     def getDate(self):
         imageName = os.path.basename(self.imageSrc)
@@ -29,10 +33,17 @@ class VideoProcessing():
     
     def createVideo(self):
         self.copyImage()
+        img = Image.open(self.imageSrc)
+        width1, height1 = img.size
+        
         for res in range(len(self.width)):
             for d in range(len(self.duration)):
                 clip = moviepy.ImageClip(self.imageSrc, duration=self.duration[d])
-                clip.resize(newsize=(self.width[res],self.height[res])).write_videofile('singleVideo_%d_%d.webm'%(self.height[res],self.duration[d]), fps=11, codec='libvpx-vp9', ffmpeg_params=['-lossless','1'])
+                if (width1 <= 360 or height1 <=360):
+                    clip.write_videofile('singleVideo_%d_%d.webm'%(self.height[res],self.duration[d]), fps=11, codec='libvpx-vp9', ffmpeg_params=['-lossless','1'])
+                    self.imgQ = 1
+                else:
+                    clip.resize(newsize=(self.width[res],self.height[res])).write_videofile('singleVideo_%d_%d.webm'%(self.height[res],self.duration[d]), fps=11, codec='libvpx-vp9', ffmpeg_params=['-lossless','1'])
     
     def getImagePath(self):
         return self.destImagePath
