@@ -32,7 +32,7 @@ class VideoProcessing():
         for res in range(len(self.width)):
             for d in range(len(self.duration)):
                 clip = moviepy.ImageClip(self.imageSrc, duration=self.duration[d])
-                clip.write_videofile('singleVideo_%d_%d.webm'%(self.height[res],self.duration[d]), fps=11, codec='libvpx-vp9', ffmpeg_params=['-lossless','1'])
+                clip.resize(newsize=(self.width[res],self.height[res])).write_videofile('singleVideo_%d_%d.webm'%(self.height[res],self.duration[d]), fps=11, codec='libvpx-vp9', ffmpeg_params=['-lossless','1'])
     
     def getImagePath(self):
         return self.destImagePath    
