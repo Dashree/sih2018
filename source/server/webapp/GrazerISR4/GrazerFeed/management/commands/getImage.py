@@ -1,7 +1,7 @@
-from watchdog.obsevers import Observer
+from watchdog.observers import Observer
 from watchdog.events import PatternMatchingEventHandler
 
-#from django.core.management.base import BaseCommand
+from django.core.management.base import BaseCommand
 
 from .videoProcessing import VideoProcessing
 
@@ -16,7 +16,6 @@ class Handler(PatternMatchingEventHandler):
         videoP.demuxerInput()
 
 
-"""
 class Command(BaseCommand):
     def handle(self, **options):
         observer = Observer()
@@ -24,10 +23,3 @@ class Command(BaseCommand):
         observer.schedule(event_handler,'/mnt/c/images', recursive=True)
         observer.start()
         observer.join()
-
-"""
-observer = Observer()
-event_handler = Handler()
-observer.schedule(event_handler,'/mnt/c/images', recursive=True)
-observer.start()
-observer.join()
