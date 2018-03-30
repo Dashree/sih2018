@@ -1,3 +1,6 @@
 Username: GrazerFeed
 Email id = Grazer@feed.com
 Password: sih_isr4
+
+User1: Grazer1
+Password: pass_feed1
