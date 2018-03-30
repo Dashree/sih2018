@@ -6,7 +6,7 @@ from .forms import OptionsPage, LoginPage
 from django.contrib.auth import authenticate, login
 from django.conf import settings
 from .calculate import calculate
-from .management.commands.videoProcessing import multipleDemuxInput
+from .management.commands.videoProcessing import VideoProcessing
 
 def index(request):
     return HttpResponse("Hello, world. You're at the GrazerFeed index.")
