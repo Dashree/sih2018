@@ -17,7 +17,13 @@ class Handler(PatternMatchingEventHandler):
         newimage = ImageUpload(upload = videoP.getImagePath(), imgDate = videoP.getDate())
         newimage.save()
         videoP.demuxerInput()
-        
+
+        videoList = os.listdir(videoP.getVideosPath())
+        for video in range(len(videoList)):
+            videoName = videoList[video].split("_")
+            videoDur= videoName[2].split(".")
+            newVideo = videoUpload(resfield=videoName[1],fpsfield=videoDur[0],uploadPath=os.path.join(videoP.getVideosPath(),videoList[video]),uploadDate=datetime.strptime(videoP.getDate(), '%d%b%Y'))
+            newVideo.save()
 
 
 class Command(BaseCommand):
