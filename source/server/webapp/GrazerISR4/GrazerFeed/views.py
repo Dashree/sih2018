@@ -34,7 +34,8 @@ def option(request):
                 pathlist.append(extractdate.uploadPath)
             sec = calculate(int(day.days), int(hour1), int(min1), int(hour2), int(min2), int(Fps))
             #videopath = settings.MEDIA_URL + str(from_date) + '/videos/video_' + str(Res) + '_' + str(Fps) + '.webm'
-            videopath = multipleDemuxInput(pathlist, Res, Fps)
+            videoP = VideoProcessing()
+            videopath = videoP.multipleDemuxInput(pathlist, Res, Fps)
             return render(request, 'GrazerFeed/VideoPage.html', context={'videopath' : videopath, 'start' : sec[0], 'end' : sec[1]})
         else:
             print('form is not valid')
