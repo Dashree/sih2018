@@ -5,7 +5,7 @@ import moviepy.editor as moviepy
 from PIL import Image
 from django.conf import settings
 
-class VideoProcessor(object):
+class videoProcessor(object):
     def __init__(self,imageSrc):
         self.imageSrc = imageSrc
         self.width = [2560, 1920, 1280, 640]
