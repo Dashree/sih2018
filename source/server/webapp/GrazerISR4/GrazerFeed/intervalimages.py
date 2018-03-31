@@ -16,4 +16,5 @@ def interval(source,dur,res):
 
     outputpath = os,path.join(settings.BASE_DIR, 'media', 'output_interval')
     shutil.move("output.webm", outputpath)
+    return outputpath
 
