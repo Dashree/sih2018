@@ -14,7 +14,7 @@ def interval(source,dur,res):
     clip = moviepy.ImageSequenceClip(tdir, fps = dur)
     clip.resize(newsize=(VideoProcessing.getMatchingWidth(res),res)).write_videofile("output.webm", fps=len(source),codec='libvpx-vp9')
 
-    outputpath = os,path.join(settings.BASE_DIR, 'media', 'output_interval')
+    outputpath = os.path.join(settings.BASE_DIR, 'media', 'output_interval')
     shutil.move("output.webm", outputpath)
     return outputpath
 
