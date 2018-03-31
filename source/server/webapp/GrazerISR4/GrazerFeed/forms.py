@@ -10,6 +10,7 @@ class OptionsPage(forms.Form):
     totime = forms.TimeField()
     res = forms.IntegerField()
     fps = forms.DecimalField()
+    duration = forms.TimeField()
 
     def clean(self):
         from_date = self.cleaned_data['fromdate']
