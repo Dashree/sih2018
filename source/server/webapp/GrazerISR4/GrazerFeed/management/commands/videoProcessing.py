@@ -53,22 +53,22 @@ class VideoProcessing(object):
         for width, height in zip(self.width, self.height):
             for d in self.duration:
                 clip = moviepy.ImageClip(self.imageSrc, duration=d)
-                videofilename= self.make_video_filename('singleVideo', width, d)
+                videofilename= self.make_video_filename('singleVideo', height, d)
                 if (width1 <= 360 or height1 <=360):
                     clip.write_videofile(videofilename, fps=fps, codec='libvpx-vp9', ffmpeg_params=ffmpeg_params)
                     self.imgQ = 1
                 else:
                     clip.resize(newsize=(width,height)).write_videofile(videofilename, fps=fps, codec='libvpx-vp9', ffmpeg_params=ffmpeg_params)
-                self.singleVideoList.append((width, d, videofilename))
+                self.singleVideoList.append((height, d, videofilename))
     
     def getImagePath(self):
         return self.destImagePath
     
     def getVideosPath(self):
         videoslist = list()
-        for res in self.width:
+        for res in self.height:
             for d in self.duration:
-                videoslist.append((res,d, self.make_video_name('video', res, d)))
+                videoslist.append((res,d, self.make_video_filename('video', res, d)))
         return videoslist
         
     def concat(self, file, res, d): 
@@ -81,23 +81,23 @@ class VideoProcessing(object):
                'video1.webm']
         subprocess.run(command)
         videoname = 'video_%d_%d.webm'%(res,d)
-        os.remove(os.path.join(settings.BASE_DIR, 'media', str(self.imgDate),'videos', videoname))
+        os.remove(os.path.join(settings.BASE_DIR, 'media', str(self.getDate()),'videos', videoname))
         os.rename('video1.webm', videoname)
         self.copyVideo(videoname)
         self.outVideoList.append((res,d, file))
     
     def demuxerInput(self):
         dateVideoPath = self.getDateVideoPath()
-        for width, d, videopath in self.singleVideoList:
-            videoname = self.make_video_filename('video', width, d)
-            singlevideoname = self.make_video_filename('singleVideo', width, d)
+        for height, d, videopath in self.singleVideoList:
+            videoname = self.make_video_filename('video', height, d)
+            singlevideoname = self.make_video_filename('singleVideo', height, d)
                           
             if(os.path.exists(os.path.join(settings.BASE_DIR,dateVideoPath,videoname))):
-                ffmpeg_cmd = self.make_video_filename('concat', width, d) + '.txt'
+                ffmpeg_cmd = self.make_video_filename('concat', height, d) + '.txt'
                 with open(ffmpeg_cmd,'w') as f:
                     f.write('file %s\n'%self.videoPath(videoname))
                     f.write('file %s' % videopath)
-                self.concat(ffmpeg_cmd, res, d)
+                self.concat(ffmpeg_cmd, height, d)
             else:
                 os.rename(singlevideoname,videoname)
                 self.videoPath(videoname)
@@ -116,7 +116,7 @@ class VideoProcessing(object):
         fullpath = os.path.join(settings.BASE_DIR,self.getDateVideoPath())
         if not os.path.exists(fullpath):
             os.makedirs(fullpath)
-        shutil.move(videoName, self.destVideoPath)
+        shutil.move(videoName, self.videoPath(videoName))
 
 
 class Demuxer(object):
