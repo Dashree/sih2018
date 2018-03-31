@@ -128,9 +128,9 @@ class Demuxer(object):
     def multipleDemuxInput(self):
         with open('nconcat.txt','w') as f:
             for videoname in self.nVideo:
-                print(videoname)
-                f.write("file %s"%videoname+"\n") 
+                f.write("file %s\n" % videoname) 
         self.vConcat('nconcat.txt')
+        return self.destVideoPath1
     
     def multipleCopyVideo(self,videoNames):
         self.destVideoPath1 = os.path.join(settings.BASE_DIR, "media", "output", videoNames)
