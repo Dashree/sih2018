@@ -1,14 +1,15 @@
-from django.shortcuts import render
+import os
+
+from django.shortcuts import render,redirect
 from django.http import HttpResponse
-from django.shortcuts import redirect
-#from django.contrib import messages
-from .forms import OptionsPage, LoginPage
 from django.contrib.auth import authenticate, login
 from django.conf import settings
+
+#from django.contrib import messages
+from .forms import OptionsPage, LoginPage
 from .calculate import calculate
 from .management.commands.videoProcessing import VideoProcessing, Demuxer
 from .models import VideoUpload
-import os
 
 def index(request):
     return HttpResponse("Hello, world. You're at the GrazerFeed index.")
@@ -42,23 +43,16 @@ def option(request):
     else:
         return render(request, 'GrazerFeed/OptionsPage.html', { 'form': OptionsPage()})
 
+    
 def loginuser(request):
     if request.method == 'POST':
-        print('In get')
         form = LoginPage(request.POST)
         if form.is_valid():
-            print('In is_valid()')
             username = form.cleaned_data['Username']
-            print('Username = ', username)
             password = form.cleaned_data['Password']
-            print('Password = ', password)
             user = authenticate(username=username, password=password)
-            print('Authenticated')
-            if user is not None:
-                print('not none')
-                if user.is_active:
-                    print('active')
-                    login(request, user)
-                    return render(request, 'GrazerFeed/OptionsPage.html', { 'form': OptionsPage()})
+            if user is not None and user.is_active:
+                login(request, user)
+                return redirect('GrazerFeed.OptionsPage')
     else:
         return render(request, 'GrazerFeed/LoginPage.html', { 'form': LoginPage()})        
