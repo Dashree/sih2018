@@ -25,11 +25,9 @@ def option(request):
             Res = form.cleaned_data['res']
             Fps = form.cleaned_data['fps']
             day = to_date - from_date
-            pathlist = []
             pathlist = VideoUpload.objects.filter(uploadDate__range=[from_date, to_date], resfield = Res, fpsfield = Fps)
             media_path = os.path.join(settings.BASE_DIR, 'media') 
             pathlist = [os.path.join(media_path, str(path.uploadDate),'videos' ,path.uploadPath) for path in pathlist]
-            print(pathlist)
             #pathlist.append(pathlist.uploadpath)
             sec = calculate(day.days, from_time.hour, from_time.minute, to_time.hour, to_time.minute, int(Fps))
             #videopath = settings.MEDIA_URL + str(from_date) + '/videos/video_' + str(Res) + '_' + str(Fps) + '.webm'
@@ -42,7 +40,6 @@ def option(request):
             return render(request, 'GrazerFeed/OptionsPage.html', { 'form': OptionsPage()}, {'error_message' : 'Invalid field values'})
     else:
         return render(request, 'GrazerFeed/OptionsPage.html', { 'form': OptionsPage()})
-
     
 def loginuser(request):
     if request.method == 'POST':
