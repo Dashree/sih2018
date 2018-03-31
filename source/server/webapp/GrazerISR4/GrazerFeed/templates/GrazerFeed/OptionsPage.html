@@ -37,17 +37,11 @@
                 <br>
                 <br>
                 <div class="row">
-                    <h3 style="color: #ffffff;">Duration
+                    <h3 style="color: #ffffff;">Interval
                         <span style="color: #ff161a;">*</span>
                     </h3>
                     <div class="col-sm-10">
-                        <select name="{{ form.duration.name }}" class="form-control" id="Resolution" style="height: 40px;" required>
-                            <option value="00:30" selected>00:30</option>
-                            <option value="03:00">03:00</option>
-                            <option value="06:00">06:00</option>
-                            <option value="12:00">12:00</option>
-                            <option value="24:00">24:00</option>
-                        </select>
+                        {{form.duration}}
                     </div>
                 </div>
             </div>
