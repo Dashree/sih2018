@@ -7,7 +7,10 @@ import moviepy.editor as moviepy
 
 from PIL import Image
 
+
 class VideoProcessing(object):
+    WIDTH = [640, 1280, 1920, 2560]
+    HEIGHT = [360, 720, 1080, 1440]
     def __init__(self, imageSrc):
         self.imageSrc = imageSrc
         self.width = [640, 1280, 1920, 2560]
@@ -16,7 +19,13 @@ class VideoProcessing(object):
         self.imgQ = 0
         self.singleVideoList = list()
         self.outVideoList = list()
-        
+
+    @classmethod
+    def getMatchingWidth(cls, height):
+        for ht, wd in zip(cls.HEIGHT, cls.WIDTH):
+            if ht == height:
+                return wd
+            
     def getDate(self):
         imageName = os.path.basename(self.imageSrc)
         list1 = imageName.split("_")
@@ -68,7 +77,8 @@ class VideoProcessing(object):
         videoslist = list()
         for res in self.height:
             for d in self.duration:
-                videoslist.append((res,d, self.make_video_filename('video', res, d)))
+                videopath = os.path.join(settings.BASE_DIR, 'media', str(self.getDate()),'videos', self.make_video_filename('video', res, d))
+                videoslist.append((res,d, videopath))
         return videoslist
         
     def concat(self, file, res, d): 
