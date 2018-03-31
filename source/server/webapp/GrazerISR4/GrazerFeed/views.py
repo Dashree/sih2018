@@ -1,5 +1,5 @@
 import os
-from datetime import datetime
+from datetime import datetime, timedelta
 
 #from django.contrib import messages
 from django.contrib.auth import authenticate, login
@@ -12,21 +12,13 @@ from .forms import OptionsPage, LoginPage
 from .calculate import calculate
 from .management.commands.videoProcessing import VideoProcessing, Demuxer
 from .models import VideoUpload, ImageUpload
-
-def sendvideo(from_date, to_date, from_time, to_time, Fps, Res):
-    pathlist = []
-    pathlist = VideoUpload.objects.filter(uploadDate__range=[from_date, to_date], resfield = Res, fpsfield = Fps)     
-    pathlist = [os.path.join(media_path, str(path.uploadDate),'videos' ,path.uploadPath) for path in pathlist]
-    #pathlist.append(pathlist.uploadpath)
-    sec = calculate(day.days, from_time.hour, from_time.minute, to_time.hour, to_time.minute, Fps)
-    outvideo = Demuxer(pathlist, Res, Fps)
-    videopath = outvideo.multipleDemuxInput()
-    videopath = videopath.replace(media_path, '/media')
+from .intervalimages import interval
+    
 
 def sendimage(from_date, to_date, from_time, to_time, dur, Fps, Res):
     start_time  = datetime.combine(from_date, from_time)
     end_time = datetime.combine(to_date, to_time)
-    dur = datetime.timedelta(hour=dur.hour, min=dur.min)
+    dur = timedelta(hours=dur.hour, minutes=dur.minute)
 
     def calc_intermediate_time(start_time, end_time, dur):
         st = start_time
@@ -36,13 +28,14 @@ def sendimage(from_date, to_date, from_time, to_time, dur, Fps, Res):
 
     imagelist = []
     for t_start, t_end in calc_intermediate_time(start_time, end_time, dur):
-        imagelist.append(ImageUpload.objects.filter(imgDate__in=[t_start.date(), t_end.date()], 
-                    imgTime__in =[t_start.time(), t_end.time()]))
+        for img in ImageUpload.objects.filter(imgDate__in=[t_start.date(), t_end.date()], 
+                    imgTime__in =[t_start.time(), t_end.time()]):
+            imagelist.append(img)
         
-    pathimage = [os.path.join(media_path, str(path.uploadDate),'images' ,pathimage.upload) for path in imagelist]
-    outimage = ConcatImg(pathimage, Res, Fps)
-    videopath = outimage.multipleDemuxInput()
-    videopath = videopath.replace(media_path, '/media')
+    pathimage = [path.upload for path in imagelist]
+    outimage = interval(pathimage, Fps, float(Res))
+    return outimage
+    #videopath = videopath.replace(media_path, '/media')
 
 def index(request):
     return HttpResponse("Hello, world. You're at the GrazerFeed index.")
@@ -62,13 +55,19 @@ def option(request):
             day = to_date - from_date
             media_path = os.path.join(settings.BASE_DIR, 'media') 
             if (dur.minute == 30):
-                sendvideo(from_date, to_date, from_time, to_time, Fps, Res)
+                pathlist = []
+                pathlist = VideoUpload.objects.filter(uploadDate__range=[from_date, to_date], resfield = Res, fpsfield = Fps)     
+                pathlist = [os.path.join(settings.MEDIA_ROOT, str(path.uploadDate),'videos' ,path.uploadPath) for path in pathlist]
+                #pathlist.append(pathlist.uploadpath)
+                sec = calculate(day.days, from_time.hour, from_time.minute, to_time.hour, to_time.minute, Fps)
+                outvideo = Demuxer(pathlist, Res, Fps)
+                videopath = outvideo.multipleDemuxInput()
             else:
-                sendimage(from_date, to_date, from_time, to_time, dur, Fps, Res)
-            
-            return render(request, 'GrazerFeed/VideoPage.html', context={'videopath' : videopath , 'start' : sec[0], 'end' : sec[1]})
+                finalpath = sendimage(from_date, to_date, from_time, to_time, dur, Fps, Res)
+                
+            finalpath = videopath.replace(media_path, '/media')
+            return render(request, 'GrazerFeed/VideoPage.html', context={'videopath' : finalpath , 'start' : sec[0], 'end' : sec[1]})
         else:
-            print('form is not valid')
             return render(request, 'GrazerFeed/OptionsPage.html', { 'form': OptionsPage()}, {'error_message' : 'Invalid field values'})
     else:
         return render(request, 'GrazerFeed/OptionsPage.html', { 'form': OptionsPage()})
