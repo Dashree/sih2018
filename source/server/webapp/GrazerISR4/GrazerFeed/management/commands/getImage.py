@@ -17,8 +17,11 @@ class Handler(PatternMatchingEventHandler):
         newimage = ImageUpload(upload = videoP.getImagePath(), imgDate = videoP.getDate(), imgTime = videoP.getTime())
         newimage.save()
         videoP.demuxerInput()
-        
-
+        videoList = videoP.getVideosPath()
+        for res, fps, videopath in videoList:
+            newVideo = VideoUpload.objects.get_or_create(resfield=res,fpsfield=fps,date=videoP.getDate())
+            newVideo.uploadPath = videopath
+            newvideo.save()
 
 class Command(BaseCommand):
     def handle(self, **options):
