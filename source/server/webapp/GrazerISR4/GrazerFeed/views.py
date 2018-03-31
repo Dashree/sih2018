@@ -1,21 +1,22 @@
+import os
+from datetime import datetime
+
+#from django.contrib import messages
+from django.contrib.auth import authenticate, login
+from django.conf import settings
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.shortcuts import redirect
-#from django.contrib import messages
+
 from .forms import OptionsPage, LoginPage
-from django.contrib.auth import authenticate, login
-from django.conf import settings
 from .calculate import calculate
 from .management.commands.videoProcessing import VideoProcessing, Demuxer
 from .models import VideoUpload, ImageUpload
-import os
-from datetime import datetime
 
 def sendvideo(from_date, to_date, from_time, to_time, Fps, Res):
     pathlist = []
     pathlist = VideoUpload.objects.filter(uploadDate__range=[from_date, to_date], resfield = Res, fpsfield = Fps)     
     pathlist = [os.path.join(media_path, str(path.uploadDate),'videos' ,path.uploadPath) for path in pathlist]
-    print(pathlist)
     #pathlist.append(pathlist.uploadpath)
     sec = calculate(day.days, from_time.hour, from_time.minute, to_time.hour, to_time.minute, Fps)
     outvideo = Demuxer(pathlist, Res, Fps)
@@ -74,21 +75,13 @@ def option(request):
 
 def loginuser(request):
     if request.method == 'POST':
-        print('In get')
         form = LoginPage(request.POST)
         if form.is_valid():
-            print('In is_valid()')
             username = form.cleaned_data['Username']
-            print('Username = ', username)
             password = form.cleaned_data['Password']
-            print('Password = ', password)
             user = authenticate(username=username, password=password)
-            print('Authenticated')
-            if user is not None:
-                print('not none')
-                if user.is_active:
-                    print('active')
-                    login(request, user)
-                    return render(request, 'GrazerFeed/OptionsPage.html', { 'form': OptionsPage()})
+            if user is not None and user.is_active:
+                login(request, user)
+                return redirect('OptionsPage')
     else:
         return render(request, 'GrazerFeed/LoginPage.html', { 'form': LoginPage()})        
