@@ -16,7 +16,7 @@
             <img src="{% static 'OptionsPage/ISRO-Logo.png' %}" style="position:absolute; right:0 ; top:0; width:100px; height:100px;">
         </div>
         <div class="col-sm-10">
-            <a href="Login" class="navbar-brand" method="get" style="color: #ffffff; font-size: 18px; position: absolute; right: 0; top: 0;">Log Out</a>
+            <a href="Login" class="navbar-brand" method="get" style="background-color: #000000; color: #ffffff; font-size: 18px; position: absolute; right: 0; top: 0;">Log Out</a>
         </div>
     </div>
     <div style="padding: 100px 100px;" class="container-fluid">
@@ -24,57 +24,28 @@
             {% csrf_token %}
             <div class="col-sm-2"></div>
             <input type="radio" name="Input" id="daywise" onclick="hide();" required>
-            <label for="daywise" style="color: #ffff99; font-size: 19px;"> See continuous day-wise video &nbsp;</label>
+            <label for="daywise" style="color: #ffff99; font-size: 19px;"> See continuous day-wise video &nbsp; &nbsp;</label>
             <input type="radio" name="Input" id="timewise" onclick="hide();">
             <label for="timewise" style="color: #ffff99; font-size: 19px;"> Images at a time over a period of days</label>
-            <div class="row">
-                <div class="col-sm-5">
-                    <h3 style="color: #ffffff;">From
-                        <span style="color: #ff161a">*</span>
+            <br>
+            <br>
+            <div class="col-sm-3">
+                <div class="row">
+                    <h3 style="color: #ffffff;">From Date
+                        <span style="color: #ff161a;">*</span>
                     </h3>
-                    <div class="col-sm-7">
+                    <div class="col-sm-10">
                         <input style="height:40px;" class="form-control" type="date" name="{{ form.fromdate.name }}" required>
                     </div>
-                    <div class="col-sm-5">
-                        <p id="FromTime">
-                        </p>
-                    </div>
                 </div>
-                <div class="col-sm-1"></div>
-                <div class="col-sm-5">
-                    <h3 style="color: #ffffff;">To
-                        <span style="color: #ff161a">*</span>
-                    </h3>
-                    <div class="col-sm-7">
-                        <input class="form-control" type="date" name="{{ form.todate.name }}" required>
-                    </div>
-                    <div class="col-sm-5">
-                        <p id="ToTime">
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <br>
-            <br>
-            <div class="row" style="display: none;" id="showdiv">
-                <div class="col-sm-5">
-                    <h3 style="color: #ffffff;">Time
-                        <span style="color: #ff161a">*</span>
-                    </h3>
-                    <div class="col-sm-5">
-                        <p id="Time">
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <br>
-            <br>
-            <div class="row">
-                <div class="col-sm-5">
+                <br>
+                <br>
+                <br>
+                <div class="row">
                     <h3 style="color: #ffffff;">Resolution
                         <span style="color: #ff161a">*</span>
                     </h3>
-                    <div class="col-sm-8">
+                    <div class="col-sm-10">
                         <select name="{{ form.res.name }}" class="form-control" id="Resolution" style="height: 40px;" required>
                             <option value="" style="color: #161615;" selected>Resolution</option>
                             <option value="360">360</option>
@@ -84,12 +55,36 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-sm-1"></div>
-                <div class="col-sm-5">
-                    <h3 style="color: #ffffff;">Image per Second
+            </div>
+            <div class="col-sm-3">
+                <h3 id="showh3" style="color: #ffffff;">From Time
+                    <span style="color: #ff161a">*</span>
+                </h3>
+                <h3 id="hideh3" style="color: #ffffff; display: none;">At Time
+                    <span style="color: #ff161a">*</span>
+                </h3>
+                <div class="col-sm-8">
+                    <p id="FromTime">
+                    </p>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="row">
+                    <h3 style="color: #ffffff;">To Date
+                        <span style="color: #ff161a;">*</span>
+                    </h3>
+                    <div class="col-sm-10">
+                        <input class="form-control" type="date" name="{{ form.todate.name }}" style=" height: 40px;" required>
+                    </div>
+                </div>
+                <br>
+                <br>
+                <br>
+                <div class="row">
+                    <h3 style="color: #ffffff;">Images per Second
                         <span style="color: #ff161a">*</span>
                     </h3>
-                    <div class="col-sm-8">
+                    <div class="col-sm-10">
                         <select name="{{ form.fps.name }}" class="form-control" style="height: 40px;" required>
                             <option value="" style="color: #161615;" selected>Images per second</option>
                             <option value="2.5">0.25</option>
@@ -100,39 +95,50 @@
                     </div>
                 </div>
             </div>
-            <br>
-            <br>
-            <br>
-            <br>
-            <div class="col-sm-11 text-center">
-                <input class="btn btn-default" style="height: 40px;
-                width: 100px;
+            <div class="col-sm-3" id="showdiv">
+                <h3 style="color: #ffffff;">To Time
+                    <span style="color: #ff161a">*</span>
+                </h3>
+                <div class="col-sm-8">
+                    <p id="ToTime">
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-10 text-center">
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <input class="btn btn-default" style="height: 45px;
+                width: 100px; font-size: 17px;
                 background-color: #008000;
                 color: #ffffff;" type="submit" value="Proceed" onsubmit="hide()">
+                </div>
             </div>
         </form>
     </div>
     <div class="col-sm-11"></div>
     <div class="col-sm-1">
-            <img src="{% static 'OptionsPage/Team-Logo.png' %}" style="position:absolute; bottom:0; left:0; width:100px; height:100px;">
-        </div>
+        <img src="{% static 'OptionsPage/Team-Logo.png' %}" style="position:absolute; bottom:0; left:0; width:100px; height:100px;">
+    </div>
 
     <script>
         function hide() {
             var in_1 = document.getElementById("daywise");
             if (in_1.checked == false) {
-                document.getElementById("FromTime").style.display = 'none';
-                document.getElementById("ToTime").style.display = 'none';
-                document.getElementById("showdiv").style.display = 'block';
+                document.getElementById("showh3").style.display = 'none';
+                document.getElementById("hideh3").style.display = 'block';
+                document.getElementById("showdiv").style.display = 'none';
             }
             else {
-                document.getElementById("FromTime").style.display = 'block';
-                document.getElementById("ToTime").style.display = 'block';
-                document.getElementById("showdiv").style.display = 'none';
+                document.getElementById("showh3").style.display = 'block';
+                document.getElementById("hideh3").style.display = 'none';
+                document.getElementById("showdiv").style.display = 'block';
             }
         }
         function setTime(NAME) {
-            var select = '<select name="' + NAME + '" class="form-control" required>';
+            var select = '<select name="' + NAME + '" class="form-control" style="height:40px;" required>';
             for (var hour = 00; hour < 24; hour++) {
                 select += '<option>' + hour + ':00 </option>';
                 select += '<option>' + hour + ':30 </option>';
