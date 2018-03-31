@@ -36,8 +36,8 @@ class VideoProcessing(object):
     def getTime(self):
         imageName = os.path.basename(self.imageSrc)
         list2 = imageName.split("_")
-        self.dateStr = list2[1]
-        imgTime = datetime.strptime(self.dateStr, '%d%b%Y').time()
+        self.dateStr = list2[2]
+        imgTime = datetime.strptime(self.dateStr, '%H%M').time()
         return imgTime
     
     def copyImage(self):
