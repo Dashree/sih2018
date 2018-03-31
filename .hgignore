@@ -5,3 +5,4 @@ __pycache__/*
 *.webm
 *.jpg
 *.png
+db.sqlite3
