@@ -8,6 +8,7 @@ from django.conf import settings
 from .calculate import calculate
 from .management.commands.videoProcessing import VideoProcessing, Demuxer
 from .models import VideoUpload
+import os
 
 def index(request):
     return HttpResponse("Hello, world. You're at the GrazerFeed index.")
@@ -24,13 +25,17 @@ def option(request):
             Fps = form.cleaned_data['fps']
             day = to_date - from_date
             pathlist = []
-            pathlist = VideoUpload.objects.filter(uploadDate__range=[from_date, to_date])
-            pathlist = [path.uploadPath for path in pathlist]
+            pathlist = VideoUpload.objects.filter(uploadDate__range=[from_date, to_date], resfield = Res, fpsfield = Fps)
+            media_path = os.path.join(settings.BASE_DIR, 'media') 
+            pathlist = [os.path.join(media_path, str(path.uploadDate),'videos' ,path.uploadPath) for path in pathlist]
+            print(pathlist)
             #pathlist.append(pathlist.uploadpath)
-            sec = calculate(day.days, from_time.hour, from_time.minute, to_time.hour, to_time.minute, Fps)
+            sec = calculate(day.days, from_time.hour, from_time.minute, to_time.hour, to_time.minute, int(Fps))
             #videopath = settings.MEDIA_URL + str(from_date) + '/videos/video_' + str(Res) + '_' + str(Fps) + '.webm'
-            videopath = Demuxer(pathlist, Res, Fps)
-            return render(request, 'GrazerFeed/VideoPage.html', context={'videopath' :  videopath.multipleDemuxInput(), 'start' : sec[0], 'end' : sec[1]})
+            outvideo = Demuxer(pathlist, Res, Fps)
+            videopath = outvideo.multipleDemuxInput()
+            videopath = videopath.replace(media_path, '/media')
+            return render(request, 'GrazerFeed/VideoPage.html', context={'videopath' : videopath , 'start' : sec[0], 'end' : sec[1]})
         else:
             print('form is not valid')
             return render(request, 'GrazerFeed/OptionsPage.html', { 'form': OptionsPage()}, {'error_message' : 'Invalid field values'})
