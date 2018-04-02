@@ -1,0 +1,15 @@
+
+===========================================
+Video Streaming (python)
+=============================================
+1. https://dev.to/singhpratyush/the-taste-of-media-streaming-with-flask-58a4
+
+Explains various http headers and responses that server has to support for media streaming.
+
+2.  https://github.com/evansd/whitenoise/
+	Radically simplified static file serving for Python web apps http://whitenoise.evans.io/
+	Can support 'streaming' of video files on the server or in S3 buckets
+
+3. http://flumotion.net/about/
+    GStreamer based video file streaming server. Written in Python+GStreamer. GPL license
+	
