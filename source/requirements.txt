@@ -3,5 +3,10 @@ django
 pillow
 psycopg2-binary
 numpy
+requests
 moviepy
+watchdog
+#we need white 4.0 beta minimum Current whitenoise version on pypi is 3.3.1
+#whitenoise
+
 
