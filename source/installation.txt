@@ -10,7 +10,7 @@ computer or on another computer. Ubuntu is assumed for these install instruction
 4. install python virtualenv
     sudo python3 -m pip install virtualenv
 5. create a virtual environment inside the project checkout folder. (./sih2018/venv)
-    cd sih2018
+    cd sih2018/source
     python3 -m virtualenv venv
 6. activate virtualenv
     source venv/bin/activate
