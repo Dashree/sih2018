@@ -9,15 +9,7 @@ from django.core.management.base import BaseCommand
 from GrazerFeed.models import ImageUpload, VideoUpload
 
 from PIL import Image, ImageChops
-from .videoProcessing import VideoProcessing
-
-def getImageTime(srcpath):
-    imageName = os.path.basename(srcpath)
-    list1 = imageName.split("_")
-    imgDate = datetime.strptime(list1[1], '%d%b%Y').date()
-    imgTime = datetime.strptime(list1[2], '%H%M').time()
-    
-    return datetime.combine(imgDate,imgTime)
+from .videoProcessing import VideoProcessing, getImageTimeStamp
 
 def calc_intermediate(startimg, starttime, endimage): 
     def time_range(start, end, step):
@@ -31,7 +23,7 @@ def calc_intermediate(startimg, starttime, endimage):
         raise StopIteration
 
     
-    endtime = getImageTime(endimage)
+    endtime = getImageTimeStamp(endimage)
     timediff = endtime - starttime
     tdiff = timedelta(minutes=45)
     if timediff > tdiff :
