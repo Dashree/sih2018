@@ -14,7 +14,7 @@ def getImageTimeStamp(imagePath):
     parse the file path and extract the date time information from the path
     '''
     imageName = os.path.basename(imagePath)
-    imgTimeStamp = datetime.strptime(imageName, '3DIMG_%d%b%Y_%H%M')
+    imgTimeStamp = datetime.strptime(imageName, '3DIMG_%d%b%Y_%H%M_L1C_ASIA_MER_IR1.jpg')
     return imgTimeStamp
 
 class VideoProcessing(object):
