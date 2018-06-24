@@ -65,17 +65,17 @@ class Handler(PatternMatchingEventHandler):
             newVideo.save()
 
     def convert_image_with_intermediate(self, newimagepath):
+        last_img = None
+        last_video = None
+        lastdt = None
+
         try:
             last_img = ImageUpload.objects.latest('imgDateTime')
             lastdt = last_img.imgDateTime
             last_img= last_img.upload
         except Exception as exp:
-            import pdb
-            pdb.set_trace()
-    
-            last_video = None
-            lastdt = None
-
+            pass
+        
         for path in calc_intermediate(last_img, lastdt, newimagepath):
             self.convert_image(path)
         
