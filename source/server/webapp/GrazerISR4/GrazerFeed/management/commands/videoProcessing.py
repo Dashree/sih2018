@@ -16,7 +16,7 @@ def getImageTimeStamp(imagePath):
     '''
     imageName = os.path.basename(imagePath)
     imgTimeStamp = datetime.strptime(imageName, '3DIMG_%d%b%Y_%H%M_L1C_ASIA_MER_IR1.jpg')
-    imgTimeStamp = imgTimeStamp.combine(imgTimeStamp, timezone.utc)
+    imgTimeStamp = imgTimeStamp.combine(imgTimeStamp.date(),imgTimeStamp.time(), tzinfo = timezone.utc)
     return imgTimeStamp
 
 class VideoProcessing(object):
