@@ -24,6 +24,9 @@ def calc_intermediate(startimg, starttime, endimage):
 
     
     endtime = getImageTimeStamp(endimage)
+    print(starttime,'Starttime')
+    print(endtime,'endtime')
+    
     timediff = endtime - starttime
     tdiff = timedelta(minutes=45)
     if timediff > tdiff :
