@@ -7,23 +7,14 @@ import moviepy.editor as moviepy
 
 from PIL import Image
 
-__all__ = ['getImageTimeStamp', 'VideoProcessing', 'Demuxer']
 
-def getImageTimeStamp(imagePath):
-    '''
-    parse the file path and extract the date time information from the path
-    '''
-    imageName = os.path.basename(imagePath)
-    imgTimeStamp = datetime.strptime(imageName, '3DIMG_%d%b%Y_%H%M')
-    return imgTimeStamp
-    
 class VideoProcessing(object):
     WIDTH = [640, 1280, 1920, 2560]
     HEIGHT = [360, 720, 1080, 1440]
     def __init__(self, imageSrc):
         self.imageSrc = imageSrc
-        self.width = [640, 1280, 1920, 2560]
-        self.height = [360, 720, 1080, 1440]
+        self.width = [640, 1280]
+        self.height = [360, 720]
         self.duration = [0.5, 1, 2, 3]
         self.imgQ = 0
         self.singleVideoList = list()
@@ -36,8 +27,10 @@ class VideoProcessing(object):
                 return wd
     
     def getTimeStamp(self):
-        return getImageTimeStamp(self.imageSrc)
-        
+        imageName = os.path.basename(self.imageSrc)
+        imgTimeStamp = datetime.strptime(imageName, '3DIMG_%d%b%Y_%H%M_L1C_ASIA_MER_IR1.jpg')
+        return imgTimeStamp
+    
     @property
     def dateImagePath(self):
         imgDate = self.getTimeStamp().date()
@@ -47,7 +40,7 @@ class VideoProcessing(object):
     @property
     def destImagePath(self):
         destImagePath = os.path.join(settings.BASE_DIR, self.dateImagePath, os.path.basename(self.imageSrc))
-    
+        return destImagePath    
     
     def copyImage(self):
         directory = os.path.dirname(self.destImagePath)
@@ -118,7 +111,7 @@ class VideoProcessing(object):
     
     
     def getDateVideoPath(self):
-        return os.path.join('media',str(self.getDate()), 'videos')
+        return os.path.join('media',str(self.getTimeStamp().date()), 'videos')
                           
     def videoPath(self,videoName):
         dateVideoPath = self.getDateVideoPath() 
