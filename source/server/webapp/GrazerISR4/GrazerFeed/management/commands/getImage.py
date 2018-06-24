@@ -63,7 +63,7 @@ class Handler(PatternMatchingEventHandler):
     def convert_image(self, srcpath):
         videoP = VideoProcessing(srcpath)
         videoP.createVideo()
-        newimage = ImageUpload(upload = videoP.getImagePath(), imgDate = videoP.getDate(), imgTime = videoP.getTime())
+        newimage = ImageUpload(upload = videoP.destImagePath, imgDateTime = videoP.getTimeStamp())
         newimage.save()
         videoP.demuxerInput()
         videoList = videoP.getVideosPath()
@@ -74,8 +74,8 @@ class Handler(PatternMatchingEventHandler):
 
     def convert_image_with_intermediate(self, newimagepath):
         try:
-            last_img = ImageUpload.objects.latest('imgDate','imgTime')
-            lastdt = datetime.combine(last_img.imgDate,last_img.imgTime)
+            last_img = ImageUpload.objects.latest('imgDateTime')
+            lastdt = last_img.imgDateTime
             last_img= last_img.upload
         except Exception as exp:
             import pdb

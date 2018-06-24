@@ -17,6 +17,5 @@ class VideoUpload(models.Model):
     
 class ImageUpload(models.Model):
     upload = models.TextField()
-    imgDate = models.DateField(null=False, blank=False)
-    imgTime = models.TimeField(null = False, blank = False)
+    imgDateTime = models.DateTimeField(null=False, blank=False)
 

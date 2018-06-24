@@ -25,26 +25,24 @@ class VideoProcessing(object):
         for ht, wd in zip(cls.HEIGHT, cls.WIDTH):
             if ht == height:
                 return wd
-            
-    def getDate(self):
+    
+    def getTimeStamp(self):
         imageName = os.path.basename(self.imageSrc)
-        list1 = imageName.split("_")
-        self.dateStr = list1[1]
-        imgDate = datetime.strptime(self.dateStr, '%d%b%Y').date()
-        return imgDate
-        
-    def getTime(self):
-        imageName = os.path.basename(self.imageSrc)
-        list2 = imageName.split("_")
-        self.dateStr = list2[2]
-        imgTime = datetime.strptime(self.dateStr, '%H%M').time()
-        return imgTime
+        imgTimeStamp = datetime.strptime(imgName, '3DIMG_%d%b%Y_%H%M')
+        return imgTimeStamp
+    
+    @property
+    def dateImagePath(self):
+        imgDate = self.getTimeStamp().date()
+        dateImagePath = os.path.join('media', str(imgDate), 'images')
+        return dateImagePath
+    
+    @property
+    def destImagePath(self):
+        destImagePath = os.path.join(settings.BASE_DIR, self.dateImagePath, os.path.basename(self.imageSrc))
+    
     
     def copyImage(self):
-        imgDate = self.getDate()
-        self.dateImagePath = os.path.join('media', str(imgDate), 'images')
-        print(self.dateImagePath)
-        self.destImagePath = os.path.join(settings.BASE_DIR, self.dateImagePath, os.path.basename(self.imageSrc))
         directory = os.path.dirname(self.destImagePath)
         if not os.path.exists(directory):
             os.makedirs(directory)
@@ -70,8 +68,6 @@ class VideoProcessing(object):
                     clip.resize(newsize=(width,height)).write_videofile(videofilename, fps=fps, codec='libvpx-vp9', ffmpeg_params=ffmpeg_params)
                 self.singleVideoList.append((height, d, videofilename))
     
-    def getImagePath(self):
-        return self.destImagePath
     
     def getVideosPath(self):
         videoslist = list()
