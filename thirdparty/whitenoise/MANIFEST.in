@@ -1,0 +1,7 @@
+include README.rst
+include LICENSE
+recursive-include whitenoise *
+recursive-include docs *
+recursive-exclude * __pycache__
+recursive-exclude * *.py[co]
+prune docs/_build
