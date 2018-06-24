@@ -1,0 +1,7 @@
+#requirements file for installing python dependencies for Grazer project
+django
+pillow
+psycopg2-binary
+numpy
+moviepy
+
