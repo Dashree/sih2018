@@ -15,19 +15,19 @@ from .models import VideoUpload, ImageUpload
 from .intervalimages import interval
     
 
-def sendimage(from_date, to_date, from_time, to_time, dur, Fps, Res):
+def sendimage(from_date, to_date, from_time, to_time, interval, Fps, Res):
     start_time  = datetime.combine(from_date, from_time)
     end_time = datetime.combine(to_date, to_time)
-    dur = timedelta(hours=dur.hour, minutes=dur.minute)
+    interval = timedelta(hours=interval.hour, minutes=interval.minute)
 
-    def calc_intermediate_time(start_time, end_time, dur):
+    def calc_intermediate_time(start_time, end_time, interval):
         st = start_time
         while st < end_time:
-            yield st,st+dur
-            st = st + dur
+            yield st,st+interval
+            st = st + interval
 
     imagelist = []
-    for t_start, t_end in calc_intermediate_time(start_time, end_time, dur):
+    for t_start, t_end in calc_intermediate_time(start_time, end_time, interval):
         for img in ImageUpload.objects.filter(imgDate__in=[t_start.date(), t_end.date()], 
                     imgTime__in =[t_start.time(), t_end.time()]):
             imagelist.append(img)
@@ -51,20 +51,20 @@ def option(request):
             to_date = form.cleaned_data['todate']
             Res = form.cleaned_data['res']
             Fps = form.cleaned_data['fps']
-            dur = form.cleaned_data['duration']
+            interval = form.cleaned_data['interval']
             day = to_date - from_date
             media_path = os.path.join(settings.BASE_DIR, 'media') 
-            if (dur.minute == 30):
+            if (interval.minute == 30):
                 pathlist = []
-                pathlist = VideoUpload.objects.filter(uploadDate__range=[from_date, to_date], resfield = Res, fpsfield = Fps)     
-                pathlist = [os.path.join(settings.MEDIA_ROOT, str(path.uploadDate),'videos' ,path.uploadPath) for path in pathlist]
+                pathlist = VideoUpload.objects.filter(uploadDateTime__range=[from_date, to_date], resfield = Res, fpsfield = Fps)     
+                pathlist = [os.path.join(settings.MEDIA_ROOT, str(path.uploadDateTime.date()),'videos' ,path.uploadPath) for path in pathlist]
                 #pathlist.append(pathlist.uploadpath)
                 sec = calculate(day.days, from_time.hour, from_time.minute, to_time.hour, to_time.minute, Fps)
                 outvideo = Demuxer(pathlist, Res, Fps)
                 videopath = outvideo.multipleDemuxInput()
             else:
                 sec = (0, 1000000)
-                videopath = sendimage(from_date, to_date, from_time, to_time, dur, float(Fps), Res)
+                videopath = sendimage(from_date, to_date, from_time, to_time, interval, float(Fps), Res)
                 
             finalpath = videopath.replace(media_path, '/media')
             return render(request, 'GrazerFeed/VideoPage.html', context={'videopath' : finalpath , 'start' : sec[0], 'end' : sec[1]})
