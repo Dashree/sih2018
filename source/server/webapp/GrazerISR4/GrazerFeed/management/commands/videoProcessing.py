@@ -36,10 +36,8 @@ class VideoProcessing(object):
                 return wd
     
     def getTimeStamp(self):
-        imageName = os.path.basename(self.imageSrc)
-        imgTimeStamp = datetime.strptime(imageName, '3DIMG_%d%b%Y_%H%M_L1C_ASIA_MER_IR1.jpg')
-        return imgTimeStamp
-    
+        return getImageTimeStamp(self.imageSrc)
+        
     @property
     def dateImagePath(self):
         imgDate = self.getTimeStamp().date()
