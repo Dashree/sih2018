@@ -82,7 +82,7 @@ class VideoProcessing(object):
         videoslist = list()
         for res in self.height:
             for d in self.duration:
-                videopath = os.path.join(settings.BASE_DIR, 'media', str(self.getDate()),'videos', self.make_video_filename('video', res, d))
+                videopath = os.path.join(settings.BASE_DIR, 'media', str(self.getTimeStamp().date()),'videos', self.make_video_filename('video', res, d))
                 videoslist.append((res,d, videopath))
         return videoslist
         
@@ -96,7 +96,7 @@ class VideoProcessing(object):
                'video1.webm']
         subprocess.run(command)
         videoname = 'video_%d_%d.webm'%(res,d)
-        os.remove(os.path.join(settings.BASE_DIR, 'media', str(self.getDate()),'videos', videoname))
+        os.remove(os.path.join(settings.BASE_DIR, 'media', str(self.getTimeStamp().date()),'videos', videoname))
         os.rename('video1.webm', videoname)
         self.copyVideo(videoname)
         self.outVideoList.append((res,d, file))

@@ -63,7 +63,7 @@ class Handler(PatternMatchingEventHandler):
         videoP.demuxerInput()
         videoList = videoP.getVideosPath()
         for res, fps, videopath in videoList:
-            newVideo, created = VideoUpload.objects.get_or_create(resfield=res,fpsfield=fps,uploadDate=videoP.getDate(), uploadtime = videoP.getTime())
+            newVideo, created = VideoUpload.objects.get_or_create(resfield=res,fpsfield=fps,uploadDateTime=videoP.getTimeStamp())
             newVideo.uploadPath = videopath
             newVideo.save()
 
@@ -94,6 +94,6 @@ class Command(BaseCommand):
         observer.join()
 
     def handle(self, **options):
-        #self.start_observer()
-        handler = Handler()
-        handler.convert_image_with_intermediate('/mnt/c/images/3DIMG_01SEP2017_1130_L1C_ASIA_MER_IR1.jpg')
+        self.start_observer()
+        #handler = Handler()
+        #handler.convert_image_with_intermediate('/mnt/c/images/3DIMG_01SEP2017_1130_L1C_ASIA_MER_IR1.jpg')

@@ -12,8 +12,7 @@ class VideoUpload(models.Model):
     resfield = models.IntegerField(null = False)
     fpsfield = models.IntegerField(null = False)
     uploadPath = models.TextField()
-    uploadDate = models.DateField(null = False, blank=False)
-    uploadtime = models.TimeField(null = False, blank=False)
+    uploadDateTime = models.DateTimeField(null = False, blank=False)
     
 class ImageUpload(models.Model):
     upload = models.TextField()
