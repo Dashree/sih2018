@@ -16,3 +16,4 @@ source ./venv/bin/activate
 
 echo "Install required python module in virtualenv"
 pip install -r requirements.txt
+pip install -e ../thirdparty/whitenoise
