@@ -20,13 +20,13 @@ def getImageTimeStamp(imagePath):
     return imgTimeStamp
 
 class VideoProcessing(object):
-    WIDTH = [640, 1280, 1920, 2560]
-    HEIGHT = [360, 720, 1080, 1440]
+    WIDTH = [640, 1280]
+    HEIGHT = [360, 720]
     def __init__(self, imageSrc):
         self.imageSrc = imageSrc
         self.width = [640, 1280]
         self.height = [360, 720]
-        self.duration = [0.5, 1, 2, 3]
+        self.duration = [1, 3]
         self.imgQ = 0
         self.singleVideoList = list()
         self.outVideoList = list()
