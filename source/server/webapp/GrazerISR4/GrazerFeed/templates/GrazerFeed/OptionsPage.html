@@ -37,11 +37,11 @@
                 <br>
                 <br>
                 <div class="row">
-                    <h3 style="color: #ffffff;">Interval
+                    <h3 style="color: #ffffff; padding-top: 9px;">Interval
                         <span style="color: #ff161a;">*</span>
                     </h3>
                     <div class="col-sm-10">
-                        {{form.duration}}
+                        <p id="interval"></p>
                     </div>
                 </div>
             </div>
@@ -63,7 +63,7 @@
                         <span style="color: #ff161a">*</span>
                     </h3>
                     <div class="col-sm-10">
-                        <select name="{{ form.res.name }}" class="form-control" id="Resolution" style="height: 40px;" required>
+                        <select name="{{ form.res.name }}" class="form-control" id="Resolution" style="height: 41px;" required>
                             <option value="360">360</option>
                             <option value="720" selected>720</option>
                             <option value="1080">1080</option>
@@ -85,11 +85,11 @@
                 <br>
                 <br>
                 <div class="row">
-                    <h3 style="color: #ffffff;">Images per Second
+                    <h3 style="color: #ffffff; padding-top: 10px;">Images per Second
                         <span style="color: #ff161a">*</span>
                     </h3>
                     <div class="col-sm-10">
-                        <select name="{{ form.fps.name }}" class="form-control" style="height: 40px;" required>
+                        <select name="{{ form.fps.name }}" class="form-control" style="height: 41px;" required>
                             <option value="2.5">0.25</option>
                             <option value="0.5">0.5</option>
                             <option value="1" selected>1</option>
@@ -128,18 +128,23 @@
 
     <script>
 
-        function setTime(NAME) {
+        function setTime(NAME,start) {
             var select = '<select name="' + NAME + '" class="form-control" style="height:40px;" required>';
-            for (var hour = 00; hour < 24; hour++) {
+            if(start==1){
+                select += '<option> 00:00 </option>'
+            }
+            select += '<option> 00:30 </option>'
+            for (var hour = 01; hour < 24; hour++) {
                 select += '<option>' + hour + ':00 </option>';
                 select += '<option>' + hour + ':30 </option>';
             }
             select += '</select>';
             return select;
         }
-        document.getElementById("FromTime").innerHTML = setTime('{{ form.fromtime.name }}');
-        document.getElementById("ToTime").innerHTML = setTime('{{ form.totime.name }}');
-        document.getElementById("Time").innerHTML = setTime('{{ form.fromtime.name }}');
+        document.getElementById("FromTime").innerHTML = setTime('{{ form.fromtime.name }}',1);
+        document.getElementById("ToTime").innerHTML = setTime('{{ form.totime.name }}',1);
+        //document.getElementById("Time").innerHTML = setTime('{{ form.fromtime.name }}');
+        document.getElementById("interval").innerHTML = setTime('{{ form.interval.name }}',0);
 
         function getCookie(name) {
             var cookieValue = null;

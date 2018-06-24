@@ -23,47 +23,10 @@
             <video id="PlayVideo" height="100%" width="100%" autoplay controls>
                 <source src="{{videopath}}#t={{start}},{{end}}"></source>
             </video>
-            <div id="video-controls">
-                <button type="button" class="form-control" style="color:#ffffff; background:#008000;" onclick="play()">
-                    <i class="fa fa-play"></i>
-                </button>
-                <button type="button" class="form-control" style="color:#ffffff; background:#008000;" onclick="pause()">
-                    <i class="fa fa-pause"></i>
-                </button>
-                <button type="button" id="full-screen" class="form-control" style="color:#ffffff; background:#008000;" onclick="fullScreen()">Full-Screen</button>
-            </div>
-            <!--br>
-        <br>
-        <br>
-        <button onclick="play()" type="button" class="btn btn-defaults" style="color:#ffffff; background:#008000;">
-            <i class="fa fa-play"></i>
-        </button>&nbsp; &nbsp;
-        <button onclick="pause()" type="button" class="btn btn-default" style="color: #ffffff; background: #008000">
-            <i class="fa fa-pause"></i>
-        </button>
-        <br>
-        <br>
-        <form action="Options" method="GET">
-            <button class="btn btn-default" style="color:#ffffff; background:#008000;">
-                <i class="fa fa-cog"></i> Reset Settings</button>
-        </form-->
         </div>
     </div>
     <script>
         var video = document.getElementById("PlayVideo");
-        function play() {
-            if (video.currentTime >= "{{ end }}") {
-                video.load();
-                video.currentTime = "{{ start }}";
-                video.play();
-            }
-            else {
-                video.play();
-            }
-        }
-        function pause() {
-            video.pause();
-        }
         $(window).keypress(function (e) {
             if (e.which == 32) {
                 if (video.paused == true) {
