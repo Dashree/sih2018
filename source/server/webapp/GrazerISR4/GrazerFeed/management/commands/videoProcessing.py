@@ -7,7 +7,16 @@ import moviepy.editor as moviepy
 
 from PIL import Image
 
+__all__ = ['getImageTimeStamp', 'VideoProcessing', 'Demuxer']
 
+def getImageTimeStamp(imagePath):
+    '''
+    parse the file path and extract the date time information from the path
+    '''
+    imageName = os.path.basename(imagePath)
+    imgTimeStamp = datetime.strptime(imgName, '3DIMG_%d%b%Y_%H%M')
+    return imgTimeStamp
+    
 class VideoProcessing(object):
     WIDTH = [640, 1280, 1920, 2560]
     HEIGHT = [360, 720, 1080, 1440]
@@ -27,10 +36,8 @@ class VideoProcessing(object):
                 return wd
     
     def getTimeStamp(self):
-        imageName = os.path.basename(self.imageSrc)
-        imgTimeStamp = datetime.strptime(imgName, '3DIMG_%d%b%Y_%H%M')
-        return imgTimeStamp
-    
+        return getImageTimeStamp(self.imageSrc)
+        
     @property
     def dateImagePath(self):
         imgDate = self.getTimeStamp().date()
