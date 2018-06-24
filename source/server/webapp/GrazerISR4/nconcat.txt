@@ -1,2 +1,0 @@
-file /mnt/c/sih2018/source/server/webapp/GrazerISR4/media/2017-09-01/videos/video_720_1.webm
-file /mnt/c/sih2018/source/server/webapp/GrazerISR4/media/2017-09-02/videos/video_720_1.webm
