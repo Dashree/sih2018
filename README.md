@@ -9,26 +9,26 @@ computer or on another computer. Ubuntu is assumed for these install instruction
 
 1. Checkout the project code https://bitbucket.org/AkshataJ96/sih2018 in a folder (we use name sih2018 as foldername)
 2. Change into source directory and run shell script(prepare.sh) to install the required modules.
-	cd sih2018/source
-	./prepare.sh
+cd sih2018/source
+./prepare.sh
 
 SETUP:
  
 Assuming the virtual environment is activated and all installations are complete,
 
 1. This project requires the user to update the new images in directory named as images in source directory.
-	cd sih2018/source/server/webapp/GrazerISR4
-	mkdir images
+cd sih2018/source/server/webapp/GrazerISR4
+mkdir images
 	
 2. Run the following command to watch the "images" directory continously for new images.
-	python3 manage.py getImage
+python3 manage.py getImage
 
 3. From a different shell prompt, Run Django migration command to create the DB tables and create an admin user.
-	python3 manage.py migrate
-	python3 manage.py createsuperuser
+python3 manage.py migrate
+python3 manage.py createsuperuser
 	
 4. Start the django server
-	python3 manage.py runserver
+python3 manage.py runserver
    Enter the credentials at http://localhost:8000/GrazerFeed/Login and proceed to choose the options and view the animation.
 
 5. To create more users,
