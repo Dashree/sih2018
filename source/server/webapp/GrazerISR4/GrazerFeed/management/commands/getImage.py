@@ -5,6 +5,7 @@ import os.path
 from watchdog.observers import Observer
 from watchdog.events import PatternMatchingEventHandler
 
+from django.conf import settings
 from django.core.management.base import BaseCommand
 from GrazerFeed.models import ImageUpload, VideoUpload
 
@@ -89,7 +90,7 @@ class Command(BaseCommand):
     def start_observer(self):
         observer = Observer()
         event_handler = Handler()
-        observer.schedule(event_handler,'/mnt/c/images', recursive=True)
+        observer.schedule(event_handler,os.path.join(settings.BASE_DIR, 'images'), recursive=True)
         observer.start()
         observer.join()
 
