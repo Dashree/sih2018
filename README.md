@@ -38,3 +38,21 @@ python3 manage.py runserver
 5. To create more users,
 	Enter the Django admin with your user credentials at http://localhost:8000/admin/
 	
+USAGE:
+------ 
+
+1. After login, the user needs to select the duration of the animation required.
+i.e. the start date and time and the end date and time. 
+
+2. The interval field is used to select the time-gap between two images. This is useful for viewing the images at the specific time of the day to explore the changes due to various factors etc.
+e.g. If the interval is set to 24 hours, the effects of sunlight or temperature can be studied at a particular time of the day(say 12 pm)
+
+The minimum and default interval is selected is 30 mins as the satellites selected for demonstration(in our case) sent images every 30 mins.
+
+3. In case of the unexpected circumstances, it may happen that some images will be received late or maynot be received at all. Our project takes care of both cases.
+i) In case the image is received late, it is processed in same manner as other images.
+ii) In case of missing images, the software creates new images using image blending, thus predicting the nature of the missing images and producing a smooth animation.
+
+4. Lastly, the user needs to select the required resolution and speed from the options which leads to the animation.
+
+5. As our project focuses on smooth animation, it also uses morphing resulting in a seamless transition between the images.
