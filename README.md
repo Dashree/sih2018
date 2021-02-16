@@ -9,7 +9,7 @@ INSTALLATION:
 Server side requires Linux( Ubuntu) and postgresql database server. Postgresql server can be on same computer or on another computer. Ubuntu is assumed for these install instructions.
 Project is developed in python and uses python's 'virtualenv' module for installation.
 
-1. Checkout the project code https://bitbucket.org/ShreedaS/sih2018 in a folder (we use name sih2018 as foldername)
+1. Checkout the project code https://github.com/Dashree/sih2018.git in a folder (we use name sih2018 as foldername)
 2. Change into source directory and run shell script(prepare.sh) to install the required modules.
 cd sih2018/source
 ./prepare.sh
